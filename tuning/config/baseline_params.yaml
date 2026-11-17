@@ -1,0 +1,24 @@
+# Baseline hardware parameters.
+# Applied at the start of every test run, so each test begins from the same state.
+# Values equal to ArduPilot's defaults are set explicitly so the baseline is written down.
+# Check every name in QGroundControl (Vehicle Setup -> Parameters) before the first run.
+
+# Frame: quadcopter, X layout (the Iris model in SITL). Reboot required if changed.
+FRAME_CLASS: 1
+FRAME_TYPE: 0
+
+# Motor outputs (ESC pulse range, microseconds). Typical brushless ESC values.
+MOT_PWM_MIN: 1000
+MOT_PWM_MAX: 2000
+
+# Motor spin-up thresholds (fraction of full throttle).
+MOT_SPIN_ARM: 0.10
+MOT_SPIN_MIN: 0.15
+
+# Battery monitor: analog-style monitor (value 4 in SITL).
+# TODO: BATT_CAPACITY must match the real 6S pack from the BOM once it is chosen.
+BATT_MONITOR: 4
+BATT_CAPACITY: 3300
+
+# Estimator: use EKF3 (ArduPilot's current state estimator).
+EK3_ENABLE: 1

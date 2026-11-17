@@ -1,0 +1,9 @@
+{
+  "started": "2026-11-17T22:14:53",
+  "connection": "udp:127.0.0.1:14551",
+  "scenario": "hover_step",
+  "baseline_file": "/Users/constantinepapakonstantinou/MEKKA/ardupilot-gazebo-sitl-setup/tuning/config/baseline_params.yaml",
+  "tuning_file": "/Users/constantinepapakonstantinou/MEKKA/ardupilot-gazebo-sitl-setup/tuning/config/tuning_params.yaml",
+  "duration_s": 42.4,
+  "log_file": "/Users/constantinepapakonstantinou/MEKKA/ardupilot-gazebo-sitl-setup/tuning/results/20261117_221453_hover_step/00000004.BIN"
+}
