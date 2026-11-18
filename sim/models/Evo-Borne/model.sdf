@@ -99,7 +99,7 @@
         <pose>0.00000 0.00690 -0.00000 0 0 0</pose>
         <mass>0.04944</mass>
         <inertia>
-          <ixx>1.3244e-04</ixx><ixy>3.6482e-21</ixy><ixz>-2.8208e-20</ixz>
+          <ixx>1.3244e-04</ixx><ixy>-9.5462e-21</ixy><ixz>-2.1201e-20</ixz>
           <iyy>2.5744e-04</iyy><iyz>-3.6987e-12</iyz><izz>1.3244e-04</izz>
         </inertia>
       </inertial>
@@ -110,7 +110,7 @@
         <!-- Ø165 mm x 30.5 mm cylinder along the wheel axle (link Y) -->
         <pose>0 0.0102 0 1.5708 0 0</pose>
         <geometry><cylinder><radius>0.0825</radius><length>0.0305</length></cylinder></geometry>
-        <surface><friction><ode><mu>1.0</mu><mu2>1.0</mu2></ode></friction></surface>
+        <surface><friction><ode><mu>0.5</mu><mu2>0.5</mu2></ode></friction></surface>
       </collision>
     </link>
 
@@ -161,11 +161,11 @@
     </joint>
 
 
-    <!-- ============ rear_right ============ -->
-    <link name="rear_right_leg">
+    <!-- ============ rear_left ============ -->
+    <link name="rear_left_leg">
       <pose relative_to="chassis">0.0644 0.1106 -0.0058 0 0 -1.5708</pose>
       <inertial>
-        <!-- N20+bracket+gear+bearing (19.02g) moved out to its own rear_right_n20 link -->
+        <!-- N20+bracket+gear+bearing (19.02g) moved out to its own rear_left_n20 link -->
         <pose>-0.00009 -0.02294 -0.06662 0 0 0</pose>
         <mass>0.04344</mass>
         <inertia>
@@ -173,146 +173,18 @@
           <iyy>7.7430e-05</iyy><iyz>2.2558e-06</iyz><izz>5.1765e-06</izz>
         </inertia>
       </inertial>
-      <visual name="rear_right_leg_visual_0">
+      <visual name="rear_left_leg_visual_0">
         <pose>0 0 -0.1156 0 -1.5708 0</pose>
         <geometry><mesh><uri>model://Evo-Borne/meshes/Right_leg_final.stl</uri><scale>0.001 0.001 0.001</scale></mesh></geometry>  <material><ambient>0.57 0.27 0.06 1</ambient><diffuse>0.95 0.45 0.1 1</diffuse><specular>0.3 0.3 0.3 1</specular></material>
       </visual>
-      <collision name="rear_right_leg_collision_0">
+      <collision name="rear_left_leg_collision_0">
         <pose>0 0 -0.1156 0 -1.5708 0</pose>
         <geometry><mesh><uri>model://Evo-Borne/meshes/Right_leg_final.stl</uri><scale>0.001 0.001 0.001</scale></mesh></geometry>
       </collision>
     </link>
 
-    <link name="rear_right_n20">
-      <pose relative_to="rear_right_leg">-0.0219 -0.0428 -0.0293 0 0 0</pose>
-      <inertial>
-        <pose>-0.00005 0.01297 -0.00001 0 0 0</pose>
-        <mass>0.01902</mass>
-        <inertia>
-          <ixx>1.3584e-06</ixx><ixy>6.0880e-09</ixy><ixz>1.5610e-08</ixz>
-          <iyy>3.3602e-07</iyy><iyz>3.1355e-09</iyz><izz>1.4352e-06</izz>
-        </inertia>
-      </inertial>
-      <visual name="rear_right_n20_visual_0">
-        <geometry><mesh><uri>model://Evo-Borne/meshes/N20 DC MOTOR.stl</uri><scale>0.001 0.001 0.001</scale></mesh></geometry>  <material><ambient>0.51 0.42 0.15 1</ambient><diffuse>0.85 0.7 0.25 1</diffuse><specular>0.3 0.3 0.3 1</specular></material>
-      </visual>
-    </link>
-    <joint name="rear_right_n20_fixed" type="fixed">
-      <parent>rear_right_leg</parent>
-      <child>rear_right_n20</child>
-    </joint>
-
-    <link name="rear_right_rotor">
-      <pose relative_to="rear_right_rotor_joint">0 0 0 0 0 0</pose>
-      <inertial>
-        <pose>0.00011 0.00011 0.00765 0 0 0</pose>
-        <mass>0.03915</mass>
-        <inertia>
-          <ixx>5.6785e-06</ixx><ixy>3.8983e-10</ixy><ixz>3.9582e-08</ixz>
-          <iyy>5.6842e-06</iyy><iyz>3.7585e-08</iyz><izz>5.3132e-06</izz>
-        </inertia>
-      </inertial>
-      <visual name="rear_right_rotor_visual_0">
-        <geometry><mesh><uri>model://Evo-Borne/meshes/brushless emax series eco ii 2207 v23.stl</uri><scale>0.001 0.001 0.001</scale></mesh></geometry>  <material><ambient>0.42 0.43 0.45 1</ambient><diffuse>0.7 0.72 0.75 1</diffuse><specular>0.3 0.3 0.3 1</specular></material>
-      </visual>
-      <visual name="rear_right_rotor_visual_1">
-        <pose>0 0 0.027 1.5708 0 0</pose>
-        <geometry><mesh><uri>model://Evo-Borne/meshes/gemfan propeller 51466.stl</uri><scale>0.001 0.001 0.001</scale></mesh></geometry>  <material><ambient>0.51 0.06 0.06 1</ambient><diffuse>0.85 0.1 0.1 1</diffuse><specular>0.3 0.3 0.3 1</specular></material>
-      </visual>
-    </link>
-
-    <link name="rear_right_wheel">
-      <pose relative_to="rear_right_wheel_joint">0 0 0 0 0 0</pose>
-      <inertial>
-        <pose>0.00000 0.00690 -0.00000 0 0 0</pose>
-        <mass>0.04944</mass>
-        <inertia>
-          <ixx>1.3244e-04</ixx><ixy>3.6482e-21</ixy><ixz>-2.8208e-20</ixz>
-          <iyy>2.5744e-04</iyy><iyz>-3.6987e-12</iyz><izz>1.3244e-04</izz>
-        </inertia>
-      </inertial>
-      <visual name="rear_right_wheel_visual_0">
-        <geometry><mesh><uri>model://Evo-Borne/meshes/Wheel_morpho.stl</uri><scale>0.001 0.001 0.001</scale></mesh></geometry>  <material><ambient>0.05 0.05 0.05 1</ambient><diffuse>0.08 0.08 0.08 1</diffuse><specular>0.3 0.3 0.3 1</specular></material>
-      </visual>
-      <collision name="rear_right_wheel_collision_0">
-        <!-- Ø165 mm x 30.5 mm cylinder along the wheel axle (link Y) -->
-        <pose>0 0.0102 0 1.5708 0 0</pose>
-        <geometry><cylinder><radius>0.0825</radius><length>0.0305</length></cylinder></geometry>
-        <surface><friction><ode><mu>1.0</mu><mu2>1.0</mu2></ode></friction></surface>
-      </collision>
-    </link>
-
-    <link name="rear_right_servo">
-      <pose relative_to="rear_right_servo_fixed">0 0 0 0 0 0</pose>
-      <inertial>
-        <pose>0.00273 0.00489 0.01000 0 0 0</pose>
-        <mass>0.09700</mass>
-        <inertia>
-          <ixx>1.3679e-05</ixx><ixy>-4.7758e-07</ixy><ixz>6.1542e-13</ixz>
-          <iyy>1.7103e-05</iyy><iyz>-8.2996e-13</iyz><izz>2.4425e-05</izz>
-        </inertia>
-      </inertial>
-      <visual name="rear_right_servo_visual_0">
-        <geometry><mesh><uri>model://Evo-Borne/meshes/Mg995.stl</uri><scale>0.001 0.001 0.001</scale></mesh></geometry>  <material><ambient>0.06 0.18 0.45 1</ambient><diffuse>0.1 0.3 0.75 1</diffuse><specular>0.3 0.3 0.3 1</specular></material>
-      </visual>
-    </link>
-
-    <joint name="rear_right_hip_joint" type="revolute">
-      <parent>chassis</parent>
-      <child>rear_right_leg</child>
-      <!-- pivot = servo output shaft; axis = shaft axis (in chassis frame) -->
-      <pose relative_to="chassis">0.0401 0.0992 0.0145 0 0 0</pose>
-      <axis>
-        <xyz>0 -1 0</xyz>
-        <limit><lower>0</lower><upper>1.5708</upper><effort>2.45</effort><velocity>6.28</velocity></limit>
-        <dynamics><damping>0.3</damping><friction>0.1</friction></dynamics>
-      </axis>
-    </joint>
-    <joint name="rear_right_rotor_joint" type="revolute">
-      <parent>rear_right_leg</parent>
-      <child>rear_right_rotor</child>
-      <pose relative_to="rear_right_leg">0 0.0004 -0.1159 0 1.5708 1.5708</pose>
-      <axis><xyz>0 0 1</xyz><limit><lower>-1e16</lower><upper>1e16</upper></limit></axis>
-    </joint>
-    <joint name="rear_right_wheel_joint" type="revolute">
-      <parent>rear_right_leg</parent>
-      <child>rear_right_wheel</child>
-      <pose relative_to="rear_right_leg">0 0.0002 -0.1151 0 1.5708 0</pose>
-      <axis><xyz>0 1 0</xyz><limit><lower>-1e16</lower><upper>1e16</upper></limit>
-        <!-- ~10% of N20 stall (1.8 kg*cm) x 13.33 ring ratio: gearbox won't back-drive -->
-        <dynamics><friction>0.25</friction></dynamics></axis>
-    </joint>
-    <joint name="rear_right_servo_fixed" type="fixed">
-      <parent>chassis</parent>
-      <child>rear_right_servo</child>
-      <pose relative_to="chassis">0.0276 0.0687 0.0045 0 0 0</pose>
-    </joint>
-
-
-    <!-- ============ rear_left ============ -->
-    <link name="rear_left_leg">
-      <pose relative_to="chassis">-0.021 0.1295 0.0009 0 0 1.5708</pose>
-      <inertial>
-        <!-- N20+bracket+gear+bearing (19.02g) moved out to its own rear_left_n20 link -->
-        <pose>-0.02177 0.01990 -0.07231 0 0 0</pose>
-        <mass>0.04344</mass>
-        <inertia>
-          <ixx>7.8195e-05</ixx><ixy>-1.2671e-08</ixy><ixz>-2.4415e-08</ixz>
-          <iyy>7.7430e-05</iyy><iyz>2.2558e-06</iyz><izz>5.1762e-06</izz>
-        </inertia>
-      </inertial>
-      <visual name="rear_left_leg_visual_0">
-        <pose>0 0 -0.1156 0 -1.5708 0</pose>
-        <geometry><mesh><uri>model://Evo-Borne/meshes/Left_leg_final.stl</uri><scale>0.001 0.001 0.001</scale></mesh></geometry>  <material><ambient>0.57 0.27 0.06 1</ambient><diffuse>0.95 0.45 0.1 1</diffuse><specular>0.3 0.3 0.3 1</specular></material>
-      </visual>
-      <collision name="rear_left_leg_collision_0">
-        <pose>0 0 -0.1156 0 -1.5708 0</pose>
-        <geometry><mesh><uri>model://Evo-Borne/meshes/Left_leg_final.stl</uri><scale>0.001 0.001 0.001</scale></mesh></geometry>
-      </collision>
-    </link>
-
     <link name="rear_left_n20">
-      <pose relative_to="rear_left_leg">0 0 -0.035 0 0 0</pose>
+      <pose relative_to="rear_left_leg">-0.0219 -0.0428 -0.0293 0 0 0</pose>
       <inertial>
         <pose>-0.00005 0.01297 -0.00001 0 0 0</pose>
         <mass>0.01902</mass>
@@ -355,7 +227,7 @@
         <pose>0.00000 0.00690 -0.00000 0 0 0</pose>
         <mass>0.04944</mass>
         <inertia>
-          <ixx>1.3244e-04</ixx><ixy>3.6482e-21</ixy><ixz>-2.8208e-20</ixz>
+          <ixx>1.3244e-04</ixx><ixy>-9.5462e-21</ixy><ixz>-2.1201e-20</ixz>
           <iyy>2.5744e-04</iyy><iyz>-3.6987e-12</iyz><izz>1.3244e-04</izz>
         </inertia>
       </inertial>
@@ -366,7 +238,7 @@
         <!-- Ø165 mm x 30.5 mm cylinder along the wheel axle (link Y) -->
         <pose>0 0.0102 0 1.5708 0 0</pose>
         <geometry><cylinder><radius>0.0825</radius><length>0.0305</length></cylinder></geometry>
-        <surface><friction><ode><mu>1.0</mu><mu2>1.0</mu2></ode></friction></surface>
+        <surface><friction><ode><mu>0.5</mu><mu2>0.5</mu2></ode></friction></surface>
       </collision>
     </link>
 
@@ -389,9 +261,9 @@
       <parent>chassis</parent>
       <child>rear_left_leg</child>
       <!-- pivot = servo output shaft; axis = shaft axis (in chassis frame) -->
-      <pose relative_to="chassis">-0.0402 0.0987 0.0150 0 0 0</pose>
+      <pose relative_to="chassis">0.0401 0.0992 0.0145 0 0 0</pose>
       <axis>
-        <xyz>0 1 0</xyz>
+        <xyz>0 -1 0</xyz>
         <limit><lower>0</lower><upper>1.5708</upper><effort>2.45</effort><velocity>6.28</velocity></limit>
         <dynamics><damping>0.3</damping><friction>0.1</friction></dynamics>
       </axis>
@@ -399,20 +271,148 @@
     <joint name="rear_left_rotor_joint" type="revolute">
       <parent>rear_left_leg</parent>
       <child>rear_left_rotor</child>
-      <pose relative_to="rear_left_leg">-0.0214 0.0425 -0.1203 3.1416 -1.5708 1.5708</pose>
-      <axis><xyz>0 0 -1</xyz><limit><lower>-1e16</lower><upper>1e16</upper></limit></axis>
+      <pose relative_to="rear_left_leg">0 0.0004 -0.1159 0 1.5708 1.5708</pose>
+      <axis><xyz>0 0 1</xyz><limit><lower>-1e16</lower><upper>1e16</upper></limit></axis>
     </joint>
     <joint name="rear_left_wheel_joint" type="revolute">
       <parent>rear_left_leg</parent>
       <child>rear_left_wheel</child>
-      <pose relative_to="rear_left_leg">-0.022 0.0435 -0.1218 0 -1.5708 0</pose>
-      <axis><xyz>0 -1 0</xyz><limit><lower>-1e16</lower><upper>1e16</upper></limit>
+      <pose relative_to="rear_left_leg">0 0.0002 -0.1151 0 1.5708 0</pose>
+      <axis><xyz>0 1 0</xyz><limit><lower>-1e16</lower><upper>1e16</upper></limit>
         <!-- ~10% of N20 stall (1.8 kg*cm) x 13.33 ring ratio: gearbox won't back-drive -->
         <dynamics><friction>0.25</friction></dynamics></axis>
     </joint>
     <joint name="rear_left_servo_fixed" type="fixed">
       <parent>chassis</parent>
       <child>rear_left_servo</child>
+      <pose relative_to="chassis">0.0276 0.0687 0.0045 0 0 0</pose>
+    </joint>
+
+
+    <!-- ============ rear_right ============ -->
+    <link name="rear_right_leg">
+      <pose relative_to="chassis">-0.021 0.1295 0.0009 0 0 1.5708</pose>
+      <inertial>
+        <!-- N20+bracket+gear+bearing (19.02g) moved out to its own rear_right_n20 link -->
+        <pose>-0.02177 0.01990 -0.07231 0 0 0</pose>
+        <mass>0.04344</mass>
+        <inertia>
+          <ixx>7.8195e-05</ixx><ixy>-1.2671e-08</ixy><ixz>-2.4415e-08</ixz>
+          <iyy>7.7430e-05</iyy><iyz>2.2558e-06</iyz><izz>5.1762e-06</izz>
+        </inertia>
+      </inertial>
+      <visual name="rear_right_leg_visual_0">
+        <pose>0 0 -0.1156 0 -1.5708 0</pose>
+        <geometry><mesh><uri>model://Evo-Borne/meshes/Left_leg_final.stl</uri><scale>0.001 0.001 0.001</scale></mesh></geometry>  <material><ambient>0.57 0.27 0.06 1</ambient><diffuse>0.95 0.45 0.1 1</diffuse><specular>0.3 0.3 0.3 1</specular></material>
+      </visual>
+      <collision name="rear_right_leg_collision_0">
+        <pose>0 0 -0.1156 0 -1.5708 0</pose>
+        <geometry><mesh><uri>model://Evo-Borne/meshes/Left_leg_final.stl</uri><scale>0.001 0.001 0.001</scale></mesh></geometry>
+      </collision>
+    </link>
+
+    <link name="rear_right_n20">
+      <pose relative_to="rear_right_leg">0 0 -0.035 0 0 0</pose>
+      <inertial>
+        <pose>-0.00005 0.01297 -0.00001 0 0 0</pose>
+        <mass>0.01902</mass>
+        <inertia>
+          <ixx>1.3584e-06</ixx><ixy>6.0880e-09</ixy><ixz>1.5610e-08</ixz>
+          <iyy>3.3602e-07</iyy><iyz>3.1355e-09</iyz><izz>1.4352e-06</izz>
+        </inertia>
+      </inertial>
+      <visual name="rear_right_n20_visual_0">
+        <geometry><mesh><uri>model://Evo-Borne/meshes/N20 DC MOTOR.stl</uri><scale>0.001 0.001 0.001</scale></mesh></geometry>  <material><ambient>0.51 0.42 0.15 1</ambient><diffuse>0.85 0.7 0.25 1</diffuse><specular>0.3 0.3 0.3 1</specular></material>
+      </visual>
+    </link>
+    <joint name="rear_right_n20_fixed" type="fixed">
+      <parent>rear_right_leg</parent>
+      <child>rear_right_n20</child>
+    </joint>
+
+    <link name="rear_right_rotor">
+      <pose relative_to="rear_right_rotor_joint">0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>0.00011 0.00011 0.00765 0 0 0</pose>
+        <mass>0.03915</mass>
+        <inertia>
+          <ixx>5.6785e-06</ixx><ixy>3.8983e-10</ixy><ixz>3.9582e-08</ixz>
+          <iyy>5.6842e-06</iyy><iyz>3.7585e-08</iyz><izz>5.3132e-06</izz>
+        </inertia>
+      </inertial>
+      <visual name="rear_right_rotor_visual_0">
+        <geometry><mesh><uri>model://Evo-Borne/meshes/brushless emax series eco ii 2207 v23.stl</uri><scale>0.001 0.001 0.001</scale></mesh></geometry>  <material><ambient>0.42 0.43 0.45 1</ambient><diffuse>0.7 0.72 0.75 1</diffuse><specular>0.3 0.3 0.3 1</specular></material>
+      </visual>
+      <visual name="rear_right_rotor_visual_1">
+        <pose>0 0 0.027 1.5708 0 0</pose>
+        <geometry><mesh><uri>model://Evo-Borne/meshes/gemfan propeller 51466.stl</uri><scale>0.001 0.001 0.001</scale></mesh></geometry>  <material><ambient>0.51 0.06 0.06 1</ambient><diffuse>0.85 0.1 0.1 1</diffuse><specular>0.3 0.3 0.3 1</specular></material>
+      </visual>
+    </link>
+
+    <link name="rear_right_wheel">
+      <pose relative_to="rear_right_wheel_joint">0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>0.00000 0.00690 -0.00000 0 0 0</pose>
+        <mass>0.04944</mass>
+        <inertia>
+          <ixx>1.3244e-04</ixx><ixy>-9.5462e-21</ixy><ixz>-2.1201e-20</ixz>
+          <iyy>2.5744e-04</iyy><iyz>-3.6987e-12</iyz><izz>1.3244e-04</izz>
+        </inertia>
+      </inertial>
+      <visual name="rear_right_wheel_visual_0">
+        <geometry><mesh><uri>model://Evo-Borne/meshes/Wheel_morpho.stl</uri><scale>0.001 0.001 0.001</scale></mesh></geometry>  <material><ambient>0.05 0.05 0.05 1</ambient><diffuse>0.08 0.08 0.08 1</diffuse><specular>0.3 0.3 0.3 1</specular></material>
+      </visual>
+      <collision name="rear_right_wheel_collision_0">
+        <!-- Ø165 mm x 30.5 mm cylinder along the wheel axle (link Y) -->
+        <pose>0 0.0102 0 1.5708 0 0</pose>
+        <geometry><cylinder><radius>0.0825</radius><length>0.0305</length></cylinder></geometry>
+        <surface><friction><ode><mu>0.5</mu><mu2>0.5</mu2></ode></friction></surface>
+      </collision>
+    </link>
+
+    <link name="rear_right_servo">
+      <pose relative_to="rear_right_servo_fixed">0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>0.00273 0.00489 0.01000 0 0 0</pose>
+        <mass>0.09700</mass>
+        <inertia>
+          <ixx>1.3679e-05</ixx><ixy>-4.7758e-07</ixy><ixz>6.1542e-13</ixz>
+          <iyy>1.7103e-05</iyy><iyz>-8.2996e-13</iyz><izz>2.4425e-05</izz>
+        </inertia>
+      </inertial>
+      <visual name="rear_right_servo_visual_0">
+        <geometry><mesh><uri>model://Evo-Borne/meshes/Mg995.stl</uri><scale>0.001 0.001 0.001</scale></mesh></geometry>  <material><ambient>0.06 0.18 0.45 1</ambient><diffuse>0.1 0.3 0.75 1</diffuse><specular>0.3 0.3 0.3 1</specular></material>
+      </visual>
+    </link>
+
+    <joint name="rear_right_hip_joint" type="revolute">
+      <parent>chassis</parent>
+      <child>rear_right_leg</child>
+      <!-- pivot = servo output shaft; axis = shaft axis (in chassis frame) -->
+      <pose relative_to="chassis">-0.0402 0.0987 0.0150 0 0 0</pose>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit><lower>0</lower><upper>1.5708</upper><effort>2.45</effort><velocity>6.28</velocity></limit>
+        <dynamics><damping>0.3</damping><friction>0.1</friction></dynamics>
+      </axis>
+    </joint>
+    <joint name="rear_right_rotor_joint" type="revolute">
+      <parent>rear_right_leg</parent>
+      <child>rear_right_rotor</child>
+      <pose relative_to="rear_right_leg">-0.0214 0.0425 -0.1203 3.1416 -1.5708 1.5708</pose>
+      <axis><xyz>0 0 -1</xyz><limit><lower>-1e16</lower><upper>1e16</upper></limit></axis>
+    </joint>
+    <joint name="rear_right_wheel_joint" type="revolute">
+      <parent>rear_right_leg</parent>
+      <child>rear_right_wheel</child>
+      <pose relative_to="rear_right_leg">-0.022 0.0435 -0.1218 0 -1.5708 0</pose>
+      <axis><xyz>0 -1 0</xyz><limit><lower>-1e16</lower><upper>1e16</upper></limit>
+        <!-- ~10% of N20 stall (1.8 kg*cm) x 13.33 ring ratio: gearbox won't back-drive -->
+        <dynamics><friction>0.25</friction></dynamics></axis>
+    </joint>
+    <joint name="rear_right_servo_fixed" type="fixed">
+      <parent>chassis</parent>
+      <child>rear_right_servo</child>
       <pose relative_to="chassis">-0.0277 0.0682 0.025 -3.1416 0 -3.1416</pose>
     </joint>
 
@@ -483,7 +483,7 @@
         <pose>0.00000 0.00690 -0.00000 0 0 0</pose>
         <mass>0.04944</mass>
         <inertia>
-          <ixx>1.3244e-04</ixx><ixy>3.6482e-21</ixy><ixz>-2.8208e-20</ixz>
+          <ixx>1.3244e-04</ixx><ixy>-9.5462e-21</ixy><ixz>-2.1201e-20</ixz>
           <iyy>2.5744e-04</iyy><iyz>-3.6987e-12</iyz><izz>1.3244e-04</izz>
         </inertia>
       </inertial>
@@ -494,7 +494,7 @@
         <!-- Ø165 mm x 30.5 mm cylinder along the wheel axle (link Y) -->
         <pose>0 0.0102 0 1.5708 0 0</pose>
         <geometry><cylinder><radius>0.0825</radius><length>0.0305</length></cylinder></geometry>
-        <surface><friction><ode><mu>1.0</mu><mu2>1.0</mu2></ode></friction></surface>
+        <surface><friction><ode><mu>0.5</mu><mu2>0.5</mu2></ode></friction></surface>
       </collision>
     </link>
 
@@ -688,7 +688,7 @@
         <jointName>rear_left_rotor_joint</jointName>
         <useForce>1</useForce>
         <type>VELOCITY</type>
-        <multiplier>-3914</multiplier>
+        <multiplier>3914</multiplier>
         <offset>0</offset>
         <servo_min>1100</servo_min><servo_max>1900</servo_max>
         <p_gain>0.002</p_gain><i_gain>0</i_gain><d_gain>0</d_gain><i_max>0</i_max><i_min>0</i_min>
@@ -712,7 +712,7 @@
         <jointName>rear_right_rotor_joint</jointName>
         <useForce>1</useForce>
         <type>VELOCITY</type>
-        <multiplier>-3914</multiplier>
+        <multiplier>3914</multiplier>
         <offset>0</offset>
         <servo_min>1100</servo_min><servo_max>1900</servo_max>
         <p_gain>0.002</p_gain><i_gain>0</i_gain><d_gain>0</d_gain><i_max>0</i_max><i_min>0</i_min>

@@ -5,7 +5,7 @@
 
 # Frame: quadcopter, X layout (the Iris model in SITL). Reboot required if changed.
 FRAME_CLASS: 1
-FRAME_TYPE: 0
+FRAME_TYPE: 1   # 1 = X (0 would be Plus)
 
 # Motor outputs (ESC pulse range, microseconds). Typical brushless ESC values.
 MOT_PWM_MIN: 1000

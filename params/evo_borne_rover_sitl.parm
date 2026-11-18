@@ -1,0 +1,42 @@
+# Evo-Borne Rover (car mode) SITL overrides, loaded on top of gazebo-rover defaults:
+#   cd ardupilot/Rover
+#   sim_vehicle.py -v Rover -f gazebo-rover --model JSON --console \
+#       --add-param-file=../../params/evo_borne_rover_sitl.parm
+#
+# Model channel map (sim/models/Evo-Borne/model.sdf):
+#   SERVO1-4  rotors           -> unused in car mode
+#   SERVO5-8  hips FL FR RL RR -> unused here (legs stay folded)
+#   SERVO9-12 wheels FL FR RL RR, 1000..2000 us = full reverse..full forward
+
+# rotors off (rover-skid.parm puts the skid throttles on SERVO1/3 = our rotors!)
+SERVO1_FUNCTION 0
+SERVO2_FUNCTION 0
+SERVO3_FUNCTION 0
+SERVO4_FUNCTION 0
+
+# skid steering: 73 = ThrottleLeft, 74 = ThrottleRight
+SERVO9_FUNCTION  73
+SERVO11_FUNCTION 73
+SERVO10_FUNCTION 74
+SERVO12_FUNCTION 74
+SERVO9_MIN   1000
+SERVO9_MAX   2000
+SERVO9_TRIM  1500
+SERVO10_MIN  1000
+SERVO10_MAX  2000
+SERVO10_TRIM 1500
+SERVO11_MIN  1000
+SERVO11_MAX  2000
+SERVO11_TRIM 1500
+SERVO12_MIN  1000
+SERVO12_MAX  2000
+SERVO12_TRIM 1500
+
+# real top speed is only ~0.14 m/s (N20 150:1 + 13.33:1 ring, wheel D 164 mm)
+CRUISE_SPEED    0.1
+CRUISE_THROTTLE 70
+WP_SPEED        0.1
+
+# auto modes: track 15 cm < wheelbase 22 cm, so it can't pivot on the spot
+WP_PIVOT_ANGLE  0      # never stop-and-pivot; turn in curves instead
+WP_RADIUS       0.5    # waypoint reached within 0.5 m (default 2 m)

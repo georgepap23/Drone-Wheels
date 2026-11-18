@@ -145,7 +145,7 @@ def corner_block(name, c):
         <!-- Ø165 mm x 30.5 mm cylinder along the wheel axle (link Y) -->
         <pose>0 0.0102 0 1.5708 0 0</pose>
         <geometry><cylinder><radius>0.0825</radius><length>0.0305</length></cylinder></geometry>
-        <surface><friction><ode><mu>1.0</mu><mu2>1.0</mu2></ode></friction></surface>
+        <surface><friction><ode><mu>0.5</mu><mu2>0.5</mu2></ode></friction></surface>
       </collision>
     </link>
 
@@ -220,8 +220,15 @@ sdf = f"""<?xml version="1.0"?>
 </sdf>
 """
 
-# rename only (geometry unchanged): old front_right <-> old rear_right
-sdf = sdf.replace("front_right", "@@TMP").replace("rear_right", "front_right").replace("@@TMP", "rear_right")
+# rename only (geometry unchanged): CORNERS keys -> names that match the real
+# position (model forward = -Y, left = +X). Same side in car and flight mode.
+#   old rear_right  -> front_right
+#   old front_right -> rear_left
+#   old rear_left   -> rear_right
+#   old front_left  -> front_left (unchanged)
+for _old, _tmp in [("front_right", "@@A"), ("rear_left", "@@B"), ("rear_right", "@@C")]:
+    sdf = sdf.replace(_old, _tmp)
+sdf = sdf.replace("@@A", "rear_left").replace("@@B", "rear_right").replace("@@C", "front_right")
 
 # ---- colours (visual only, no effect on physics)
 import re as _re

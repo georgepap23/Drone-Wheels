@@ -101,13 +101,17 @@ brew install --cask qgroundcontrol
 **5. Run it** (three separate terminals — macOS can't run Gazebo's server
 and GUI in one process):
 
-Start them in this order: **server → SITL → GUI**. Run these two lines in
-every terminal first (or add them to `~/.zshrc`):
+Start them in this order: **server → SITL → GUI**. First add these two
+lines to `~/.zshrc` (use the full path to where you cloned this repo), then
+open new terminals:
 
 ```bash
+export GZ_SIM_RESOURCE_PATH=/path/to/ardupilot-gazebo-sitl-setup/sim/models:$GZ_SIM_RESOURCE_PATH
 export GZ_IP=127.0.0.1   # keep Gazebo transport on localhost (VPN/Wi-Fi changes break it)
-export GZ_SIM_RESOURCE_PATH=$PWD/sim/models:$GZ_SIM_RESOURCE_PATH   # run from repo root
 ```
+
+If the server says `Unable to find uri[model://Evo-Borne]`, the first line
+is missing or points to the wrong folder.
 
 ```bash
 # Terminal 1 — Gazebo server (Evo-Borne)

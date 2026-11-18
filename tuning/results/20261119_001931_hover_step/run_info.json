@@ -1,0 +1,9 @@
+{
+  "started": "2026-11-19T00:19:31",
+  "connection": "udp:127.0.0.1:14551",
+  "scenario": "hover_step",
+  "baseline_file": "/Users/georgepapakonstantinou/Documents/ArduPilot/tuning/config/baseline_params.yaml",
+  "tuning_file": "/Users/georgepapakonstantinou/Documents/ArduPilot/tuning/config/tuning_params.yaml",
+  "duration_s": 42.1,
+  "log_file": "/Users/georgepapakonstantinou/Documents/ArduPilot/tuning/results/20261119_001931_hover_step/00000006.BIN"
+}

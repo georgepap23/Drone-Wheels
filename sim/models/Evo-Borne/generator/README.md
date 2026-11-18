@@ -18,12 +18,14 @@ Needs `numpy` (the repo's `.venv` has it).
 | `ardupilot_plugins.py` | IMU (BMI088 noise), propeller thrust (LiftDrag fit to EMAX ECO II 2207 + Gemfan 51466), `ArduPilotPlugin` channel map and PIDs for rotors, hip servos (ST3020) and wheels (N20 150:1 + 13.33:1 ring). |
 
 Corner names: `CORNERS` in `build_final_sdf.py` uses the **old** names; the
-last step of the script swaps `front_right` ↔ `rear_right` in the output.
+rename block at the end of the script maps them to names that match each
+corner's real position (model forward = −Y, left = +X), the same in car and
+flight mode. `NEW2OLD` in `ardupilot_plugins.py` holds the same mapping.
 
 ## ArduPilot channel map
 
 | SITL output | Joint |
 |---|---|
-| SERVO1–4 | rotors (quad-X: FR, RL, FL, RR) |
+| SERVO1–4 | rotors, quad-X M1–M4: FR (CCW), RL (CCW), FL (CW), RR (CW) |
 | SERVO5–8 | hips FL, FR, RL, RR — 1000 µs folded, 2000 µs unfolded |
 | SERVO9–12 | wheels FL, FR, RL, RR — 1500 µs stop, >1500 forward |

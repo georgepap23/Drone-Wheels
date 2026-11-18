@@ -1,10 +1,11 @@
 # Generates the IMU sensor + LiftDrag (thrust) + ArduPilotPlugin XML.
 # Executed from build_final_sdf.py; uses CORNERS/_T/_rot/np from there.
 # Corner keys in CORNERS are the OLD names; the output is renamed afterwards
-# (front_right <-> rear_right), so map final-name -> CORNERS key here and
-# write the XML with OLD names too (the final rename fixes them consistently).
+# (see the rename block at the end of build_final_sdf.py), so map
+# final-name -> CORNERS key here and write the XML with OLD names too
+# (the final rename fixes them consistently).
 NEW2OLD = {"front_left": "front_left", "front_right": "rear_right",
-           "rear_left": "rear_left", "rear_right": "front_right"}
+           "rear_left": "front_right", "rear_right": "rear_left"}
 
 # ---------------- IMU: MicoAir743 v2 primary IMU = Bosch BMI088 ----------------
 # BMI088 datasheet noise density: gyro 0.014 deg/s/sqrt(Hz), accel 175 ug/sqrt(Hz)
@@ -49,6 +50,7 @@ BLADE = dict(a0=0.3, cla=4.25, cda=1.15, area=2.55e-4)
 
 # ArduPilot Quad-X motor order & spin seen from above:
 #   M1 front-right CCW, M2 rear-left CCW, M3 front-left CW, M4 rear-right CW
+# Link names match the real position (same side in car and flight mode).
 MOTORS = [("front_right", +1), ("rear_left", +1), ("front_left", -1), ("rear_right", -1)]
 
 def _flight_axes(c):
