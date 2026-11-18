@@ -3,3 +3,17 @@ ardupilot/build/
 *.pyc
 __pycache__/
 .DS_Store
+
+# CAD source files (kept locally, not in git; sim meshes live in sim/models)
+cad/
+
+# MAVProxy session logs
+*.tlog
+*.tlog.raw
+mav.parm
+
+# Local docker env (copy of docker/.env.example)
+docker/.env
+
+# Editor settings (machine-specific paths)
+.vscode/

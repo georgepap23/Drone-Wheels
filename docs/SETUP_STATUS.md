@@ -293,7 +293,7 @@ MAVLink client like QGC.
 
 New files (all live outside `ardupilot/` to keep that vendored upstream tree
 pristine/diffable against future `git pull`s):
-- `docker-compose.yml` — builds `ardupilot/Dockerfile`, bind-mounts
+- `docker/docker-compose.yml` — builds `ardupilot/Dockerfile`, bind-mounts
   `./ardupilot` to `/ardupilot` and `./docker/sitl-entrypoint.sh` into the
   container, publishes `5760/tcp` (GCS/MAVLink) and `9003/udp` (Gazebo → SITL
   FDM-in). Port `9002/udp` (SITL → Gazebo servo-out) is intentionally **not**
@@ -304,7 +304,7 @@ pristine/diffable against future `git pull`s):
   `build/sitl/bin/arducopter`, then execs it with `--model JSON` and the
   Gazebo-matching ports. To force a rebuild after ArduPilot source changes,
   delete `ardupilot/build/sitl` on the host before the next `docker compose up`.
-- `.env.example` — template for `HOST_UID`/`HOST_GID` build args (Compose
+- `docker/.env.example` — template for `HOST_UID`/`HOST_GID` build args (Compose
   does not auto-read `$UID`/`$GID` from the shell; copy to `.env` or export
   in-shell). This machine's values: `HOST_UID=501` (from `id -u`),
   `HOST_GID=1000` (deliberately **not** `id -g` — see caveat below).
@@ -385,7 +385,7 @@ does — a future Linux user would need to change the SDF's `fdm_addr` to
 QGroundControl remains the primary/documented GCS on macOS (native Apple
 Silicon support, no Mono reliability issues, relevant to this repo's
 cross-platform-sharing goal). Add a manual **TCP** link to `127.0.0.1:5760`
-(the port published by `docker-compose.yml`) — QGC's default auto-connect is
+(the port published by `docker/docker-compose.yml`) — QGC's default auto-connect is
 UDP, so this link must be added manually.
 
 Optional secondary tool: Mission Planner (native to ArduPilot, deeper
