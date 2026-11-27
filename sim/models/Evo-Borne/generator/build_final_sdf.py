@@ -145,7 +145,7 @@ def corner_block(name, c):
         <!-- Ø165 mm x 30.5 mm cylinder along the wheel axle (link Y) -->
         <pose>0 0.0102 0 1.5708 0 0</pose>
         <geometry><cylinder><radius>0.0825</radius><length>0.0305</length></cylinder></geometry>
-        <surface><friction><ode><mu>0.5</mu><mu2>0.5</mu2></ode></friction></surface>
+        <surface><friction><ode><mu>0.3</mu><mu2>0.3</mu2></ode></friction></surface>
       </collision>
     </link>
 

@@ -1,0 +1,40 @@
+{
+  "summary": {
+    "signal": "altitude",
+    "num_steps": 1,
+    "worst_overshoot_pct": 0.9999910990397209,
+    "worst_settling_time_s": 3.0727789402008057,
+    "worst_steady_state_error": 0.2349999745686849,
+    "worst_hold_rms_error": 0.4456268514530072,
+    "peak_roll_deg": 0.07537308516222122,
+    "peak_pitch_deg": 0.1411776756068496
+  },
+  "steps": [
+    {
+      "t_start": 5.064946889877319,
+      "from_target": 5.0,
+      "to_target": 8.0,
+      "step_size": 3.0,
+      "notes": [],
+      "rise_time_s": 1.8005049228668213,
+      "overshoot_pct": 0.9999910990397209,
+      "settling_time_s": 3.0727789402008057,
+      "steady_state_error": -0.2349999745686849
+    }
+  ],
+  "segments": [
+    {
+      "t_start": 0.2506537437438965,
+      "target": 5.0,
+      "duration_s": 4.5649940967559814,
+      "rms_error_after_settle": 0.09558433824180164
+    },
+    {
+      "t_start": 5.064946889877319,
+      "target": 8.0,
+      "duration_s": 4.845415830612183,
+      "rms_error_after_settle": 0.4456268514530072
+    }
+  ],
+  "notes": []
+}

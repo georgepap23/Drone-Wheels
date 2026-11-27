@@ -1,14 +1,14 @@
 # ArduPilot + Gazebo + QGroundControl macOS Setup — Status
 
-Working dir for this project: `~/Documents/ArduPilot` (moved here from Desktop).
+Working dir for this project: `~/Documents/Wheel-Drones` (moved here from Desktop).
 
 ## Why this file exists
 The Claude Code session that did the work below was originally anchored (sandboxed)
 to `~/Desktop/ArduPilot`. The whole project folder was later moved to
-`~/Documents/ArduPilot` per request, which broke that session's ability to
+`~/Documents/Wheel-Drones` per request, which broke that session's ability to
 *execute* scripts/binaries here (read/list still worked, but running scripts did
 not — exit 126 "permission denied" from the sandbox). Restarting Claude Code with
-cwd = `~/Documents/ArduPilot` fixes this since the sandbox anchors to the actual
+cwd = `~/Documents/Wheel-Drones` fixes this since the sandbox anchors to the actual
 launch directory.
 
 ## Target machine
@@ -22,8 +22,8 @@ launch directory.
 
 ## Done
 - [x] Verified Xcode CLT, Homebrew, git present.
-- [x] Created `.venv` here: `python3.12 -m venv ~/Documents/ArduPilot/.venv`
-- [x] Cloned ArduPilot with submodules into `~/Documents/ArduPilot/ardupilot`
+- [x] Created `.venv` here: `python3.12 -m venv ~/Documents/Wheel-Drones/.venv`
+- [x] Cloned ArduPilot with submodules into `~/Documents/Wheel-Drones/ardupilot`
       (`git clone --recurse-submodules https://github.com/ArduPilot/ardupilot.git`)
 - [x] Added Gazebo Homebrew tap: `brew tap osrf/simulation`
 - [x] **Ran macOS prereqs script** (brew gawk/coreutils/wget/ccache + pip deps:
@@ -43,7 +43,7 @@ launch directory.
       **Fix applied:** uninstalled all the wrongly-added packages from
       `~/.platformio/penv` and restored `packaging==25.0` there (verified with
       `pip check`, clean). Deleted and recreated `.venv` fresh directly at
-      `~/Documents/ArduPilot/.venv` (confirmed correct paths in `pyvenv.cfg`,
+      `~/Documents/Wheel-Drones/.venv` (confirmed correct paths in `pyvenv.cfg`,
       `activate`, and `pip` shebang this time). Reran the prereqs script with
       stdin redirected from `/dev/null` instead of a `printf` pipe, since the
       pipe's answers were observed being silently consumed by an earlier `brew
@@ -114,7 +114,7 @@ launch directory.
       (pulled in earlier as a `gz-harmonic` dependency); installed
       `gstreamer` (1.28.9) and `opencv` (5.1.0) via brew, then cloned
       `https://github.com/ArduPilot/ardupilot_gazebo` into
-      `~/Documents/ArduPilot/ardupilot_gazebo`. `GZ_VERSION` was left unset
+      `~/Documents/Wheel-Drones/ardupilot_gazebo`. `GZ_VERSION` was left unset
       since Harmonic is the repo's default.
       **Real build issue hit and fixed:** plain
       `cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo` failed at the CMake
@@ -158,8 +158,8 @@ launch directory.
       session-scoped, via plain `export`, for the verification above, but
       that doesn't persist to new terminals):
       ```bash
-      export GZ_SIM_SYSTEM_PLUGIN_PATH=~/Documents/ArduPilot/ardupilot_gazebo/build:$GZ_SIM_SYSTEM_PLUGIN_PATH
-      export GZ_SIM_RESOURCE_PATH=~/Documents/ArduPilot/ardupilot_gazebo/models:~/Documents/ArduPilot/ardupilot_gazebo/worlds:$GZ_SIM_RESOURCE_PATH
+      export GZ_SIM_SYSTEM_PLUGIN_PATH=~/Documents/Wheel-Drones/ardupilot_gazebo/build:$GZ_SIM_SYSTEM_PLUGIN_PATH
+      export GZ_SIM_RESOURCE_PATH=~/Documents/Wheel-Drones/ardupilot_gazebo/models:~/Documents/Wheel-Drones/ardupilot_gazebo/worlds:$GZ_SIM_RESOURCE_PATH
       ```
       One more thing worth knowing for the next end-to-end test: the
       binary currently at `ardupilot/build/sitl/bin/arducopter` is the
@@ -336,7 +336,7 @@ why the compose file/`.env.example` look the way they do:
 
 ### Usage
 ```bash
-cd ~/Documents/ArduPilot
+cd ~/Documents/Wheel-Drones
 HOST_UID=$(id -u) HOST_GID=1000 docker compose build
 HOST_UID=$(id -u) HOST_GID=1000 docker compose up
 ```
