@@ -22,3 +22,23 @@ BATT_CAPACITY: 3300
 
 # Estimator: use EKF3 (ArduPilot's current state estimator).
 EK3_ENABLE: 1
+
+# ---- Tuning step 0 (prerequisites), 2026-11-27 ----
+# Thrust curve linearisation. The sim rotor speed is 0.15..0.95 of max over the throttle
+# range and LiftDrag thrust ~ speed^2; the least-squares fit of ArduPilot's
+# (1-e)*u + e*u^2 to that curve gives e = 0.65 (max error 2.5 %). Real vehicle: from a thrust stand.
+MOT_THST_EXPO: 0.65
+MOT_HOVER_LEARN: 2      # learn MOT_THST_HOVER while hovering, save it on disarm
+
+# Log the rate/attitude/PID messages at the full 400 Hz loop rate (bit 0 = Fast Attitude).
+LOG_BITMASK: 180223
+
+# Sensor noise for the MicoAir743 V2. The gyro and accel noise come from the Gazebo IMU
+# in model.sdf (already BMI088 values). Baro: SPL06 at 8x oversampling ~0.14 m RMS;
+# SITL adds uniform noise in [-RND, +RND], RMS = RND/sqrt(3) -> RND = 0.24 m.
+SIM_BARO_RND: 0.24
+SIM_GPS1_HZ: 5          # MicoAir M10 GPS output rate
+
+# Start a new log file at every disarm, so each test run gets its own .BIN
+# (otherwise SITL appends every flight to the same file until it reboots).
+LOG_FILE_DSRMROT: 1

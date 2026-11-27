@@ -25,7 +25,7 @@ Arguments (all optional):
 | `--baseline` | `config/baseline_params.yaml` | Hardware parameters applied before every run. |
 | `--connection` | `udp:127.0.0.1:14551` | MAVLink link to SITL. Change only if you change MAVProxy's output port. |
 | `--results` | `tuning/results/` | Folder where each run is saved. |
-| `--log-dir` | `ardupilot/ArduCopter/logs` | Where SITL writes its flight logs. |
+| `--log-dir` | `external/ardupilot/ArduCopter/logs` | Where SITL writes its flight logs. |
 | `--no-plot` | off | Skip making the plots after the run. |
 
 Example: fly a second scenario with a different tuning file:
@@ -49,6 +49,22 @@ Each run creates a folder `tuning/results/<time>_<scenario>/` with:
 ```bash
 python tuning/pipeline/plots.py tuning/results/<run_folder>
 ```
+
+## Scenarios
+
+| Scenario | Tuning step | What it flies |
+|---|---|---|
+| `hover_learn` | 0, prerequisites | Takeoff to 5 m and a 60 s still hover in GUIDED. Prints `MOT_THST_HOVER` before and after (learned while hovering, saved on disarm). |
+| `rate_doublet` | 1-2, rate loops | 3 rate doublets per axis (roll and pitch +/-90 deg/s, yaw +/-60 deg/s) sent as body-rate targets in GUIDED, with a level hold between them. Look at the "Rate loop tracking" and "Controller terms" plots. |
+| `angle_doublet` | 3, angle loop | 3 angle doublets per axis (roll and pitch +/-15 deg, yaw a 30 deg turn and back) sent as attitude targets in GUIDED, with a position hold between them. Compare ATT.DesRoll/Roll, DesPitch/Pitch, DesYaw/Yaw. |
+| `vertical_step` | 4-6, vertical loops | Altitude steps 5 -> 8 -> 5 m, twice, 8 s hold after each, position and heading held. Compare CTUN.DAlt/Alt, CTUN.DCRt/CRt, PIDA.Tar/Act, CTUN.ThO. |
+| `horizontal_step` | 7-8, horizontal loops | 5 m position steps North, back, East, back (once), 8 s hold each, altitude and heading held. Compare PSCN.TPN/PN, PSCN.TVN/VN (and PSCE for East), PIDN terms. |
+| `wind_gust` | 9, disturbance | Position hold in calm, 3 and 6 m/s steady wind, 30 s of 2-8 m/s gusts, then a 5 m move with a 4 m/s crosswind. Wind set live on the Gazebo topic /ocean_current (needs GZ_IP, Homebrew gz Python bindings and `pip install protobuf==7.36.2` in the venv). Look at PSCN/PSCE position error, ATT.Roll/Pitch, PIDN.I/PIDE.I. |
+| `autotune` | 11, cross-check | GUIDED takeoff to 10 m, LOITER, then ArduPilot AUTOTUNE (roll, pitch, yaw) with the sticks held centred by RC override; lands in AUTOTUNE so the gains are saved, prints ours vs AutoTune and writes autotune_gains.json. Takes 5-10+ min. |
+| `hover_step` | 4-6, vertical loops | Altitude step 5 m -> 8 m. |
+
+All of them need the legs in FLY first (`rc 7 1900` in MAVProxy). Without MAVProxy's extra
+output you can connect to SITL's spare port directly: `--connection tcp:127.0.0.1:5763`.
 
 ## Adding a scenario
 

@@ -9,7 +9,7 @@ import shutil
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
-DEFAULT_LOG_DIR = REPO_ROOT / "ardupilot" / "ArduCopter" / "logs"
+DEFAULT_LOG_DIR = REPO_ROOT / "external" / "ardupilot" / "ArduCopter" / "logs"
 
 
 def find_latest_log(log_dir=DEFAULT_LOG_DIR):

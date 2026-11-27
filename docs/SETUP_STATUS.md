@@ -2,6 +2,10 @@
 
 Working dir for this project: `~/Documents/Wheel-Drones` (moved here from Desktop).
 
+> **2026-11-27:** the `ardupilot/` and `ardupilot_gazebo/` submodules were moved
+> into `external/`. Paths below that say `ardupilot/...` or
+> `ardupilot_gazebo/...` are now `external/ardupilot/...` etc.
+
 ## Why this file exists
 The Claude Code session that did the work below was originally anchored (sandboxed)
 to `~/Desktop/ArduPilot`. The whole project folder was later moved to

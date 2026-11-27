@@ -1,0 +1,9 @@
+{
+  "started": "2026-11-27T18:07:39",
+  "connection": "tcp:127.0.0.1:5763",
+  "scenario": "rate_doublet",
+  "baseline_file": "/Users/georgepapakonstantinou/Documents/Wheel-Drones/tuning/config/baseline_params.yaml",
+  "tuning_file": "tuning/config/step1_rate_rp.yaml",
+  "duration_s": 79.2,
+  "log_file": "/Users/georgepapakonstantinou/Documents/Wheel-Drones/tuning/results/20261127_180739_rate_doublet/00000013.BIN"
+}

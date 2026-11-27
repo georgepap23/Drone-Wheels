@@ -1,0 +1,9 @@
+{
+  "started": "2026-11-27T19:19:12",
+  "connection": "tcp:127.0.0.1:5763",
+  "scenario": "horizontal_step",
+  "baseline_file": "/Users/georgepapakonstantinou/Documents/Wheel-Drones/tuning/config/baseline_params.yaml",
+  "tuning_file": "tuning/config/step7_horizontal.yaml",
+  "duration_s": 94.4,
+  "log_file": "/Users/georgepapakonstantinou/Documents/Wheel-Drones/tuning/results/20261127_191912_horizontal_step/00000021.BIN"
+}

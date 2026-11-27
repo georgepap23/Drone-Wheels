@@ -1,0 +1,504 @@
+{
+  "summary": {
+    "signal": "rate",
+    "num_steps": 27,
+    "worst_overshoot_pct": 83.19829142875483,
+    "worst_settling_time_s": null,
+    "worst_steady_state_error": 96.6923281392435,
+    "worst_hold_rms_error": 32.65704421206532,
+    "peak_roll_deg": 24.01820482954622,
+    "peak_pitch_deg": 22.610267200080227
+  },
+  "steps": [
+    {
+      "t_start": 4.029250860214233,
+      "from_target": 0.0,
+      "to_target": 90.0,
+      "step_size": 90.0,
+      "notes": [
+        "did not settle within the segment"
+      ],
+      "rise_time_s": 0.06133675575256348,
+      "overshoot_pct": 6.912746172534501,
+      "settling_time_s": null,
+      "steady_state_error": -27.604935266700664
+    },
+    {
+      "t_start": 4.270014762878418,
+      "from_target": 90.0,
+      "to_target": -90.0,
+      "step_size": -180.0,
+      "notes": [],
+      "rise_time_s": 0.11939573287963867,
+      "overshoot_pct": 2.2843998993324455,
+      "settling_time_s": 0.1983959674835205,
+      "steady_state_error": 96.6923281392435
+    },
+    {
+      "t_start": 4.529295921325684,
+      "from_target": -90.0,
+      "to_target": 0.0,
+      "step_size": 90.0,
+      "notes": [],
+      "rise_time_s": 0.06015491485595703,
+      "overshoot_pct": 41.22810707136508,
+      "settling_time_s": 4.5417749881744385,
+      "steady_state_error": 8.298887820381045
+    },
+    {
+      "t_start": 9.551816940307617,
+      "from_target": 0.0,
+      "to_target": 90.0,
+      "step_size": 90.0,
+      "notes": [],
+      "rise_time_s": 0.05864691734313965,
+      "overshoot_pct": 6.935695608145731,
+      "settling_time_s": 0.23942089080810547,
+      "steady_state_error": -27.569257100018607
+    },
+    {
+      "t_start": 9.81132197380066,
+      "from_target": 90.0,
+      "to_target": -90.0,
+      "step_size": -180.0,
+      "notes": [],
+      "rise_time_s": 0.11982202529907227,
+      "overshoot_pct": 2.151799365695717,
+      "settling_time_s": 0.17977190017700195,
+      "steady_state_error": 89.92577633428948
+    },
+    {
+      "t_start": 10.051393985748291,
+      "from_target": -90.0,
+      "to_target": 0.0,
+      "step_size": 90.0,
+      "notes": [],
+      "rise_time_s": 0.0403439998626709,
+      "overshoot_pct": 41.53195183114264,
+      "settling_time_s": 4.468273878097534,
+      "steady_state_error": 7.543026893780211
+    },
+    {
+      "t_start": 15.079937934875488,
+      "from_target": 0.0,
+      "to_target": 90.0,
+      "step_size": 90.0,
+      "notes": [],
+      "rise_time_s": 0.06039285659790039,
+      "overshoot_pct": 6.834054804196854,
+      "settling_time_s": 0.24184489250183105,
+      "steady_state_error": -28.397889525940517
+    },
+    {
+      "t_start": 15.340641975402832,
+      "from_target": 90.0,
+      "to_target": -90.0,
+      "step_size": -180.0,
+      "notes": [],
+      "rise_time_s": 0.12020492553710938,
+      "overshoot_pct": 2.322504765802025,
+      "settling_time_s": 0.19989991188049316,
+      "steady_state_error": 95.16795104015979
+    },
+    {
+      "t_start": 15.58091688156128,
+      "from_target": -90.0,
+      "to_target": 0.0,
+      "step_size": 90.0,
+      "notes": [],
+      "rise_time_s": 0.06037306785583496,
+      "overshoot_pct": 30.16489677958831,
+      "settling_time_s": 4.762033939361572,
+      "steady_state_error": -3.7088873182845883
+    },
+    {
+      "t_start": 20.604179859161377,
+      "from_target": 0.0,
+      "to_target": 90.0,
+      "step_size": 90.0,
+      "notes": [
+        "did not settle within the segment"
+      ],
+      "rise_time_s": 0.05938577651977539,
+      "overshoot_pct": 7.760327113938614,
+      "settling_time_s": null,
+      "steady_state_error": -31.57906386613655
+    },
+    {
+      "t_start": 20.862617015838623,
+      "from_target": 90.0,
+      "to_target": -90.0,
+      "step_size": -180.0,
+      "notes": [],
+      "rise_time_s": 0.12094593048095703,
+      "overshoot_pct": 3.9226397445077055,
+      "settling_time_s": 0.20037102699279785,
+      "steady_state_error": 91.84711238363845
+    },
+    {
+      "t_start": 21.122922897338867,
+      "from_target": -90.0,
+      "to_target": 0.0,
+      "step_size": 90.0,
+      "notes": [],
+      "rise_time_s": 0.05983686447143555,
+      "overshoot_pct": 41.80244250047331,
+      "settling_time_s": 4.541676998138428,
+      "steady_state_error": 4.970831764393707
+    },
+    {
+      "t_start": 26.126277685165405,
+      "from_target": 0.0,
+      "to_target": 90.0,
+      "step_size": 90.0,
+      "notes": [
+        "did not settle within the segment"
+      ],
+      "rise_time_s": 0.05920910835266113,
+      "overshoot_pct": 8.266284760355912,
+      "settling_time_s": null,
+      "steady_state_error": -28.531936421457488
+    },
+    {
+      "t_start": 26.386674880981445,
+      "from_target": 90.0,
+      "to_target": -90.0,
+      "step_size": -180.0,
+      "notes": [],
+      "rise_time_s": 0.12160420417785645,
+      "overshoot_pct": 4.107244579574987,
+      "settling_time_s": 0.20004510879516602,
+      "steady_state_error": 89.59230277395332
+    },
+    {
+      "t_start": 26.645689010620117,
+      "from_target": -90.0,
+      "to_target": 0.0,
+      "step_size": 90.0,
+      "notes": [],
+      "rise_time_s": 0.0595393180847168,
+      "overshoot_pct": 42.44716682352805,
+      "settling_time_s": 4.522279977798462,
+      "steady_state_error": 5.232421847538371
+    },
+    {
+      "t_start": 31.66859483718872,
+      "from_target": 0.0,
+      "to_target": 90.0,
+      "step_size": 90.0,
+      "notes": [
+        "did not settle within the segment"
+      ],
+      "rise_time_s": 0.059617042541503906,
+      "overshoot_pct": 7.905711484971878,
+      "settling_time_s": null,
+      "steady_state_error": -27.55642768287611
+    },
+    {
+      "t_start": 31.90809988975525,
+      "from_target": 90.0,
+      "to_target": -90.0,
+      "step_size": -180.0,
+      "notes": [],
+      "rise_time_s": 0.12005472183227539,
+      "overshoot_pct": 3.8444378730606132,
+      "settling_time_s": 0.2008988857269287,
+      "steady_state_error": 95.48710635398758
+    },
+    {
+      "t_start": 32.167948961257935,
+      "from_target": -90.0,
+      "to_target": 0.0,
+      "step_size": 90.0,
+      "notes": [],
+      "rise_time_s": 0.0608367919921875,
+      "overshoot_pct": 83.19829142875483,
+      "settling_time_s": 3.621717929840088,
+      "steady_state_error": 15.350873623415659
+    },
+    {
+      "t_start": 37.19062685966492,
+      "from_target": 0.0,
+      "to_target": 60.0,
+      "step_size": 60.0,
+      "notes": [
+        "did not settle within the segment"
+      ],
+      "rise_time_s": 0.1605517864227295,
+      "overshoot_pct": 19.383578766710574,
+      "settling_time_s": null,
+      "steady_state_error": -19.675076271546327
+    },
+    {
+      "t_start": 37.70996809005737,
+      "from_target": 60.0,
+      "to_target": -60.0,
+      "step_size": -120.0,
+      "notes": [],
+      "rise_time_s": 0.2783501148223877,
+      "overshoot_pct": 0.8659100070537384,
+      "settling_time_s": 0.4616389274597168,
+      "steady_state_error": 73.88219555497311
+    },
+    {
+      "t_start": 38.21005296707153,
+      "from_target": -60.0,
+      "to_target": 0.0,
+      "step_size": 60.0,
+      "notes": [],
+      "rise_time_s": 0.14108705520629883,
+      "overshoot_pct": 15.293742663361964,
+      "settling_time_s": 1.9627459049224854,
+      "steady_state_error": 0.15482943265621044
+    },
+    {
+      "t_start": 43.234071016311646,
+      "from_target": 0.0,
+      "to_target": 60.0,
+      "step_size": 60.0,
+      "notes": [
+        "did not settle within the segment"
+      ],
+      "rise_time_s": 0.1585702896118164,
+      "overshoot_pct": 19.440087198443813,
+      "settling_time_s": null,
+      "steady_state_error": -20.109469156509533
+    },
+    {
+      "t_start": 43.753751039505005,
+      "from_target": 60.0,
+      "to_target": -60.0,
+      "step_size": -120.0,
+      "notes": [],
+      "rise_time_s": 0.2799952030181885,
+      "overshoot_pct": 0.24153395590134075,
+      "settling_time_s": 0.45986080169677734,
+      "steady_state_error": 74.53777895957853
+    },
+    {
+      "t_start": 44.2552649974823,
+      "from_target": -60.0,
+      "to_target": 0.0,
+      "step_size": 60.0,
+      "notes": [],
+      "rise_time_s": 0.13857388496398926,
+      "overshoot_pct": 13.880442766215095,
+      "settling_time_s": 0.7991809844970703,
+      "steady_state_error": 0.2258293006940013
+    },
+    {
+      "t_start": 49.27550482749939,
+      "from_target": 0.0,
+      "to_target": 60.0,
+      "step_size": 60.0,
+      "notes": [
+        "did not settle within the segment"
+      ],
+      "rise_time_s": 0.15873408317565918,
+      "overshoot_pct": 19.425425059025514,
+      "settling_time_s": null,
+      "steady_state_error": -20.06535496517932
+    },
+    {
+      "t_start": 49.796911001205444,
+      "from_target": 60.0,
+      "to_target": -60.0,
+      "step_size": -120.0,
+      "notes": [],
+      "rise_time_s": 0.28206396102905273,
+      "overshoot_pct": 0.024049349079513505,
+      "settling_time_s": 0.4577360153198242,
+      "steady_state_error": 74.71569481773962
+    },
+    {
+      "t_start": 50.296656131744385,
+      "from_target": -60.0,
+      "to_target": 0.0,
+      "step_size": 60.0,
+      "notes": [],
+      "rise_time_s": 0.13882803916931152,
+      "overshoot_pct": 13.488468170440582,
+      "settling_time_s": 0.7812817096710205,
+      "steady_state_error": 0.22620948383223047
+    }
+  ],
+  "segments": [
+    {
+      "t_start": 0.019830942153930664,
+      "target": 0.0,
+      "duration_s": 3.989686965942383,
+      "rms_error_after_settle": 0.2081205458359542
+    },
+    {
+      "t_start": 4.029250860214233,
+      "target": 90.0,
+      "duration_s": 0.22062397003173828,
+      "rms_error_after_settle": null
+    },
+    {
+      "t_start": 4.270014762878418,
+      "target": -90.0,
+      "duration_s": 0.2397751808166504,
+      "rms_error_after_settle": null
+    },
+    {
+      "t_start": 4.529295921325684,
+      "target": 0.0,
+      "duration_s": 5.002303123474121,
+      "rms_error_after_settle": 18.179421598669364
+    },
+    {
+      "t_start": 9.551816940307617,
+      "target": 90.0,
+      "duration_s": 0.23942089080810547,
+      "rms_error_after_settle": null
+    },
+    {
+      "t_start": 9.81132197380066,
+      "target": -90.0,
+      "duration_s": 0.22048187255859375,
+      "rms_error_after_settle": null
+    },
+    {
+      "t_start": 10.051393985748291,
+      "target": 0.0,
+      "duration_s": 5.00904393196106,
+      "rms_error_after_settle": 18.928494211057497
+    },
+    {
+      "t_start": 15.079937934875488,
+      "target": 90.0,
+      "duration_s": 0.24184489250183105,
+      "rms_error_after_settle": null
+    },
+    {
+      "t_start": 15.340641975402832,
+      "target": -90.0,
+      "duration_s": 0.22126293182373047,
+      "rms_error_after_settle": null
+    },
+    {
+      "t_start": 15.58091688156128,
+      "target": 0.0,
+      "duration_s": 5.001981019973755,
+      "rms_error_after_settle": 12.827344243291323
+    },
+    {
+      "t_start": 20.604179859161377,
+      "target": 90.0,
+      "duration_s": 0.23945903778076172,
+      "rms_error_after_settle": null
+    },
+    {
+      "t_start": 20.862617015838623,
+      "target": -90.0,
+      "duration_s": 0.24040889739990234,
+      "rms_error_after_settle": null
+    },
+    {
+      "t_start": 21.122922897338867,
+      "target": 0.0,
+      "duration_s": 4.983058929443359,
+      "rms_error_after_settle": 22.729660235986373
+    },
+    {
+      "t_start": 26.126277685165405,
+      "target": 90.0,
+      "duration_s": 0.24065518379211426,
+      "rms_error_after_settle": null
+    },
+    {
+      "t_start": 26.386674880981445,
+      "target": -90.0,
+      "duration_s": 0.23920893669128418,
+      "rms_error_after_settle": null
+    },
+    {
+      "t_start": 26.645689010620117,
+      "target": 0.0,
+      "duration_s": 5.0029120445251465,
+      "rms_error_after_settle": 22.760859321566514
+    },
+    {
+      "t_start": 31.66859483718872,
+      "target": 90.0,
+      "duration_s": 0.21979808807373047,
+      "rms_error_after_settle": null
+    },
+    {
+      "t_start": 31.90809988975525,
+      "target": -90.0,
+      "duration_s": 0.23984384536743164,
+      "rms_error_after_settle": null
+    },
+    {
+      "t_start": 32.167948961257935,
+      "target": 0.0,
+      "duration_s": 5.003971099853516,
+      "rms_error_after_settle": 32.65704421206532
+    },
+    {
+      "t_start": 37.19062685966492,
+      "target": 60.0,
+      "duration_s": 0.5003089904785156,
+      "rms_error_after_settle": null
+    },
+    {
+      "t_start": 37.70996809005737,
+      "target": -60.0,
+      "duration_s": 0.48107481002807617,
+      "rms_error_after_settle": null
+    },
+    {
+      "t_start": 38.21005296707153,
+      "target": 0.0,
+      "duration_s": 5.002716064453125,
+      "rms_error_after_settle": 0.3405063843239988
+    },
+    {
+      "t_start": 43.234071016311646,
+      "target": 60.0,
+      "duration_s": 0.5003218650817871,
+      "rms_error_after_settle": null
+    },
+    {
+      "t_start": 43.753751039505005,
+      "target": -60.0,
+      "duration_s": 0.4795267581939697,
+      "rms_error_after_settle": null
+    },
+    {
+      "t_start": 44.2552649974823,
+      "target": 0.0,
+      "duration_s": 5.001168727874756,
+      "rms_error_after_settle": 0.2403482518521044
+    },
+    {
+      "t_start": 49.27550482749939,
+      "target": 60.0,
+      "duration_s": 0.5009682178497314,
+      "rms_error_after_settle": null
+    },
+    {
+      "t_start": 49.796911001205444,
+      "target": -60.0,
+      "duration_s": 0.4782867431640625,
+      "rms_error_after_settle": null
+    },
+    {
+      "t_start": 50.296656131744385,
+      "target": 0.0,
+      "duration_s": 5.012938976287842,
+      "rms_error_after_settle": 0.300776172017122
+    }
+  ],
+  "notes": [
+    "step at t=4.0 s: did not settle within the segment",
+    "step at t=20.6 s: did not settle within the segment",
+    "step at t=26.1 s: did not settle within the segment",
+    "step at t=31.7 s: did not settle within the segment",
+    "step at t=37.2 s: did not settle within the segment",
+    "step at t=43.2 s: did not settle within the segment",
+    "step at t=49.3 s: did not settle within the segment"
+  ]
+}

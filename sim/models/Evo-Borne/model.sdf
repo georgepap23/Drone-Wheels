@@ -77,11 +77,11 @@
     <link name="front_left_rotor">
       <pose relative_to="front_left_rotor_joint">0 0 0 0 0 0</pose>
       <inertial>
-        <pose>0.00011 0.00011 0.00765 0 0 0</pose>
+        <pose>0.00000 0.00000 0.00765 0 0 0</pose>
         <mass>0.03915</mass>
         <inertia>
-          <ixx>5.6785e-06</ixx><ixy>3.8983e-10</ixy><ixz>3.9582e-08</ixz>
-          <iyy>5.6842e-06</iyy><iyz>3.7585e-08</iyz><izz>5.3132e-06</izz>
+          <ixx>5.6814e-06</ixx><ixy>0</ixy><ixz>0</ixz>
+          <iyy>5.6814e-06</iyy><iyz>0</iyz><izz>5.3132e-06</izz>
         </inertia>
       </inertial>
       <visual name="front_left_rotor_visual_0">
@@ -205,11 +205,11 @@
     <link name="rear_left_rotor">
       <pose relative_to="rear_left_rotor_joint">0 0 0 0 0 0</pose>
       <inertial>
-        <pose>0.00011 0.00011 0.00765 0 0 0</pose>
+        <pose>0.00000 0.00000 0.00765 0 0 0</pose>
         <mass>0.03915</mass>
         <inertia>
-          <ixx>5.6785e-06</ixx><ixy>3.8983e-10</ixy><ixz>3.9582e-08</ixz>
-          <iyy>5.6842e-06</iyy><iyz>3.7585e-08</iyz><izz>5.3132e-06</izz>
+          <ixx>5.6814e-06</ixx><ixy>0</ixy><ixz>0</ixz>
+          <iyy>5.6814e-06</iyy><iyz>0</iyz><izz>5.3132e-06</izz>
         </inertia>
       </inertial>
       <visual name="rear_left_rotor_visual_0">
@@ -333,11 +333,11 @@
     <link name="rear_right_rotor">
       <pose relative_to="rear_right_rotor_joint">0 0 0 0 0 0</pose>
       <inertial>
-        <pose>0.00011 0.00011 0.00765 0 0 0</pose>
+        <pose>0.00000 0.00000 0.00765 0 0 0</pose>
         <mass>0.03915</mass>
         <inertia>
-          <ixx>5.6785e-06</ixx><ixy>3.8983e-10</ixy><ixz>3.9582e-08</ixz>
-          <iyy>5.6842e-06</iyy><iyz>3.7585e-08</iyz><izz>5.3132e-06</izz>
+          <ixx>5.6814e-06</ixx><ixy>0</ixy><ixz>0</ixz>
+          <iyy>5.6814e-06</iyy><iyz>0</iyz><izz>5.3132e-06</izz>
         </inertia>
       </inertial>
       <visual name="rear_right_rotor_visual_0">
@@ -461,11 +461,11 @@
     <link name="front_right_rotor">
       <pose relative_to="front_right_rotor_joint">0 0 0 0 0 0</pose>
       <inertial>
-        <pose>0.00011 0.00011 0.00765 0 0 0</pose>
+        <pose>0.00000 0.00000 0.00765 0 0 0</pose>
         <mass>0.03915</mass>
         <inertia>
-          <ixx>5.6785e-06</ixx><ixy>3.8983e-10</ixy><ixz>3.9582e-08</ixz>
-          <iyy>5.6842e-06</iyy><iyz>3.7585e-08</iyz><izz>5.3132e-06</izz>
+          <ixx>5.6814e-06</ixx><ixy>0</ixy><ixz>0</ixz>
+          <iyy>5.6814e-06</iyy><iyz>0</iyz><izz>5.3132e-06</izz>
         </inertia>
       </inertial>
       <visual name="front_right_rotor_visual_0">
@@ -655,6 +655,28 @@
       <upward>0 0 1</upward>
     </plugin>
 
+    <!-- ===== air drag on the vehicle body (chassis frame: X/Y horizontal, Z up) =====
+         Gazebo has no air, so without this a moving drone never slows down by itself.
+         The Hydrodynamics system is a generic per-axis drag model; here the "fluid" is air.
+         Force on each axis = xU*u + xUabsU*u*|u|, u = velocity relative to the air
+         (default_current = wind, world frame; can be changed live on /ocean_current).
+         Quadratic (body drag) = -0.5*rho*Cd*A: areas from the CAD (chassis 96/61/209 cm^2
+         seen along X/Y/Z) plus ~40 cm^2 side / ~100 cm^2 top for legs, servos, motors;
+         Cd 1.0 sides, 1.2 top, rho 1.2.
+         Linear X/Y (rotor drag: blade flapping + induced drag, the main horizontal drag of a
+         small quad at low speed, not captured by LiftDrag) ~0.3 1/s * 1.66 kg = 0.5 N/(m/s),
+         minus ~0.05 already produced by the LiftDrag blades. ESTIMATES: refine from flight data
+         (coast-down test: tilt to speed, level, measure the deceleration). -->
+    <plugin filename="gz-sim-hydrodynamics-system" name="gz::sim::systems::Hydrodynamics">
+      <link_name>chassis</link_name>
+      <disable_added_mass>true</disable_added_mass>
+      <disable_coriolis>true</disable_coriolis>
+      <default_current>0 0 0</default_current>
+      <xU>-0.45</xU><yV>-0.45</yV><zW>0</zW>
+      <xUabsU>-0.0082</xUabsU><yVabsV>-0.0061</yVabsV><zWabsW>-0.0223</zWabsW>
+      <kP>0</kP><mQ>0</mQ><nR>0</nR>
+    </plugin>
+
     <!-- ===== joint states: makes Gazebo track joint position/velocity, which the
          ArduPilot plugin's PID controllers read (without it, no joint moves) ===== -->
     <plugin filename="gz-sim-joint-state-publisher-system" name="gz::sim::systems::JointStatePublisher"/>
@@ -678,8 +700,8 @@
         <type>VELOCITY</type>
         <multiplier>-3914</multiplier>
         <offset>0</offset>
-        <servo_min>1100</servo_min><servo_max>1900</servo_max>
-        <p_gain>0.002</p_gain><i_gain>0</i_gain><d_gain>0</d_gain><i_max>0</i_max><i_min>0</i_min>
+        <servo_min>1000</servo_min><servo_max>2000</servo_max>
+        <p_gain>0.000177</p_gain><i_gain>0.00116</i_gain><d_gain>0</d_gain><i_max>0.35</i_max><i_min>-0.35</i_min>
         <cmd_max>0.35</cmd_max><cmd_min>-0.35</cmd_min>
         <controlVelocitySlowdownSim>1</controlVelocitySlowdownSim>
       </control>
@@ -690,8 +712,8 @@
         <type>VELOCITY</type>
         <multiplier>3914</multiplier>
         <offset>0</offset>
-        <servo_min>1100</servo_min><servo_max>1900</servo_max>
-        <p_gain>0.002</p_gain><i_gain>0</i_gain><d_gain>0</d_gain><i_max>0</i_max><i_min>0</i_min>
+        <servo_min>1000</servo_min><servo_max>2000</servo_max>
+        <p_gain>0.000177</p_gain><i_gain>0.00116</i_gain><d_gain>0</d_gain><i_max>0.35</i_max><i_min>-0.35</i_min>
         <cmd_max>0.35</cmd_max><cmd_min>-0.35</cmd_min>
         <controlVelocitySlowdownSim>1</controlVelocitySlowdownSim>
       </control>
@@ -702,8 +724,8 @@
         <type>VELOCITY</type>
         <multiplier>-3914</multiplier>
         <offset>0</offset>
-        <servo_min>1100</servo_min><servo_max>1900</servo_max>
-        <p_gain>0.002</p_gain><i_gain>0</i_gain><d_gain>0</d_gain><i_max>0</i_max><i_min>0</i_min>
+        <servo_min>1000</servo_min><servo_max>2000</servo_max>
+        <p_gain>0.000177</p_gain><i_gain>0.00116</i_gain><d_gain>0</d_gain><i_max>0.35</i_max><i_min>-0.35</i_min>
         <cmd_max>0.35</cmd_max><cmd_min>-0.35</cmd_min>
         <controlVelocitySlowdownSim>1</controlVelocitySlowdownSim>
       </control>
@@ -714,8 +736,8 @@
         <type>VELOCITY</type>
         <multiplier>3914</multiplier>
         <offset>0</offset>
-        <servo_min>1100</servo_min><servo_max>1900</servo_max>
-        <p_gain>0.002</p_gain><i_gain>0</i_gain><d_gain>0</d_gain><i_max>0</i_max><i_min>0</i_min>
+        <servo_min>1000</servo_min><servo_max>2000</servo_max>
+        <p_gain>0.000177</p_gain><i_gain>0.00116</i_gain><d_gain>0</d_gain><i_max>0.35</i_max><i_min>-0.35</i_min>
         <cmd_max>0.35</cmd_max><cmd_min>-0.35</cmd_min>
         <controlVelocitySlowdownSim>1</controlVelocitySlowdownSim>
       </control>

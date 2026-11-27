@@ -6,6 +6,7 @@ held at the point where the vehicle took off. The recorded samples (altitude,
 target, roll, pitch over time) are what the metrics module analyses.
 """
 
+import math
 import time
 
 from pymavlink import mavutil
@@ -16,6 +17,7 @@ SAMPLE_PERIOD_S = 0.1  # minimum time between recorded samples
 
 # Position-only target: x, y, z are used; velocity, acceleration and yaw are ignored.
 POSITION_ONLY_MASK = 0b0000111111111000
+YAW_IGNORE_BIT = 0b0000010000000000
 
 
 def _current_position(link, timeout=2):
@@ -26,23 +28,27 @@ def _current_position(link, timeout=2):
     return msg.x, msg.y, msg.z
 
 
-def _send_position_target(link, x_m, y_m, altitude_m):
+def _send_position_target(link, x_m, y_m, altitude_m, yaw_deg=None):
     """Ask the vehicle to hold (x, y) at a given altitude above home in GUIDED mode.
 
     NED coordinates are used, where z is positive downwards, so altitude is -z.
     Sending the current (x, y) keeps the vehicle where it is horizontally, and
     replaces any older target that might still be active.
+    yaw_deg: heading to hold. Without it ArduPilot picks the heading itself
+    (WP_YAW_BEHAVIOR: turn to face the direction it flies), so flying back to a
+    point after a sideways drift turns the vehicle.
     """
+    mask = POSITION_ONLY_MASK if yaw_deg is None else POSITION_ONLY_MASK & ~YAW_IGNORE_BIT
     link.mav.set_position_target_local_ned_send(
         0,                                   # time_boot_ms (0 = not used)
         link.target_system,
         link.target_component,
         mavutil.mavlink.MAV_FRAME_LOCAL_NED,
-        POSITION_ONLY_MASK,
+        mask,
         x_m, y_m, -altitude_m,               # position (z is down)
         0.0, 0.0, 0.0,                       # velocity (ignored)
         0.0, 0.0, 0.0,                       # acceleration (ignored)
-        0.0, 0.0,                            # yaw, yaw rate (ignored)
+        math.radians(yaw_deg or 0.0), 0.0,   # yaw (used only if yaw_deg given), yaw rate (ignored)
     )
 
 

@@ -83,7 +83,13 @@ for ch, (newname, ccw) in enumerate(MOTORS):
       <forward>{fwd[0]:.4f} {fwd[1]:.4f} 0</forward>
       <upward>{up}</upward>
     </plugin>""")
-    # rotor inertia izz 5.44e-6 at 1 ms step: keep p*dt/I < 1  -> p = 0.002
+    # servo range = ArduPilot MOT_PWM_MIN/MAX (1000-2000), so the top of the throttle range is not clipped
+    # Motor lag: rotor speed follows the command like a real motor+ESC, time constant ~30 ms
+    # (typical 2207 + 5" prop; replace with a bench measurement). PI on rotor speed, output = torque:
+    #   p = I_rotor / tau = 5.31e-6 / 0.03 = 1.77e-4   -> 30 ms response
+    #   i = b / tau, b = 2*kQ*w_hover (prop drag slope at hover) -> cancels the drag pole and removes
+    #       the steady speed error from prop drag (P alone leaves the rotor 10-20 % slow)
+    #   i_max 0.35 N*m >= max prop drag torque (~0.23 N*m). Checked offline: 29-35 ms, <2 % error.
     ctrl_xml.append(f"""      <!-- SERVO{ch+1} = Motor {ch+1}: {old} ({'CCW' if ccw>0 else 'CW'}) -->
       <control channel="{ch}">
         <jointName>{old}_rotor_joint</jointName>
@@ -91,8 +97,8 @@ for ch, (newname, ccw) in enumerate(MOTORS):
         <type>VELOCITY</type>
         <multiplier>{mult_sign*W_MAX:.0f}</multiplier>
         <offset>0</offset>
-        <servo_min>1100</servo_min><servo_max>1900</servo_max>
-        <p_gain>0.002</p_gain><i_gain>0</i_gain><d_gain>0</d_gain><i_max>0</i_max><i_min>0</i_min>
+        <servo_min>1000</servo_min><servo_max>2000</servo_max>
+        <p_gain>0.000177</p_gain><i_gain>0.00116</i_gain><d_gain>0</d_gain><i_max>0.35</i_max><i_min>-0.35</i_min>
         <cmd_max>0.35</cmd_max><cmd_min>-0.35</cmd_min>
         <controlVelocitySlowdownSim>1</controlVelocitySlowdownSim>
       </control>""")
@@ -134,6 +140,28 @@ for i, newname in enumerate(["front_left", "front_right", "rear_left", "rear_rig
       </control>""")
 
 PLUGINS_XML = "\n    <!-- ===== propeller thrust: 3 LiftDrag blades per rotor ===== -->\n" + "\n".join(lift_xml) + f"""
+
+    <!-- ===== air drag on the vehicle body (chassis frame: X/Y horizontal, Z up) =====
+         Gazebo has no air, so without this a moving drone never slows down by itself.
+         The Hydrodynamics system is a generic per-axis drag model; here the "fluid" is air.
+         Force on each axis = xU*u + xUabsU*u*|u|, u = velocity relative to the air
+         (default_current = wind, world frame; can be changed live on /ocean_current).
+         Quadratic (body drag) = -0.5*rho*Cd*A: areas from the CAD (chassis 96/61/209 cm^2
+         seen along X/Y/Z) plus ~40 cm^2 side / ~100 cm^2 top for legs, servos, motors;
+         Cd 1.0 sides, 1.2 top, rho 1.2.
+         Linear X/Y (rotor drag: blade flapping + induced drag, the main horizontal drag of a
+         small quad at low speed, not captured by LiftDrag) ~0.3 1/s * 1.66 kg = 0.5 N/(m/s),
+         minus ~0.05 already produced by the LiftDrag blades. ESTIMATES: refine from flight data
+         (coast-down test: tilt to speed, level, measure the deceleration). -->
+    <plugin filename="gz-sim-hydrodynamics-system" name="gz::sim::systems::Hydrodynamics">
+      <link_name>chassis</link_name>
+      <disable_added_mass>true</disable_added_mass>
+      <disable_coriolis>true</disable_coriolis>
+      <default_current>0 0 0</default_current>
+      <xU>-0.45</xU><yV>-0.45</yV><zW>0</zW>
+      <xUabsU>-0.0082</xUabsU><yVabsV>-0.0061</yVabsV><zWabsW>-0.0223</zWabsW>
+      <kP>0</kP><mQ>0</mQ><nR>0</nR>
+    </plugin>
 
     <!-- ===== joint states: makes Gazebo track joint position/velocity, which the
          ArduPilot plugin's PID controllers read (without it, no joint moves) ===== -->

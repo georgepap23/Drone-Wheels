@@ -1,5 +1,5 @@
 .venv/
-ardupilot/build/
+external/ardupilot/build/
 *.pyc
 __pycache__/
 .DS_Store
@@ -17,3 +17,8 @@ docker/.env
 
 # Editor settings (machine-specific paths)
 .vscode/
+
+# Tuning run outputs too big for git: flight logs and the generated plot page.
+# The small files of each run (run_info, params_applied, metrics, samples.csv) are kept.
+tuning/results/**/*.BIN
+tuning/results/**/flight_plots.html

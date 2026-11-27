@@ -33,8 +33,8 @@ SITL looks for Lua scripts in `scripts/` next to where it runs. Link the file
 there, so edits in `lua/` are picked up without copying (from the repo root):
 
 ```bash
-mkdir -p ardupilot/ArduCopter/scripts
-ln -sf ../../../lua/evoborne.lua ardupilot/ArduCopter/scripts/evoborne.lua
+mkdir -p external/ardupilot/ArduCopter/scripts
+ln -sf ../../../../lua/evoborne.lua external/ardupilot/ArduCopter/scripts/evoborne.lua
 ```
 
 ## Run in Gazebo
@@ -42,10 +42,10 @@ ln -sf ../../../lua/evoborne.lua ardupilot/ArduCopter/scripts/evoborne.lua
 Terminal 1 and 3 as in the main README (Gazebo server, then GUI). Terminal 2:
 
 ```bash
-cd ardupilot/ArduCopter
+cd external/ardupilot/ArduCopter
 sim_vehicle.py -v ArduCopter -f gazebo-iris --model JSON --console \
-    --add-param-file=../../params/evo_borne_copter.parm \
-    --add-param-file=../../params/evo_borne_hybrid.parm
+    --add-param-file=../../../params/evo_borne_copter.parm \
+    --add-param-file=../../../params/evo_borne_hybrid.parm
 ```
 
 Wait for `EVO: loaded` and `EVO: ready (DRIVE)`.
@@ -54,7 +54,7 @@ Wait for `EVO: loaded` and `EVO: ready (DRIVE)`.
 `eeprom.bin` win. If you ever ran `param load` or `param set` for these
 parameters (e.g. `RC7_OPTION 7` from `evo_borne_copter.parm`), start once with
 `-w` to wipe the saved values, or run
-`param load ../../params/evo_borne_hybrid.parm` in MAVProxy and then `reboot`
+`param load ../../../params/evo_borne_hybrid.parm` in MAVProxy and then `reboot`
 (`SCR_ENABLE` only takes effect after a reboot).
 
 ## Manual test (MAVProxy, one command at a time)
@@ -87,9 +87,9 @@ Without Gazebo (faster, only checks the logic), use ArduPilot's built-in quad
 physics:
 
 ```bash
-cd ardupilot/ArduCopter
+cd external/ardupilot/ArduCopter
 sim_vehicle.py -v ArduCopter -f quad --console \
-    --add-param-file=../../params/evo_borne_hybrid.parm
+    --add-param-file=../../../params/evo_borne_hybrid.parm
 ```
 
 ## Before the real vehicle

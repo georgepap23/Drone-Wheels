@@ -1,0 +1,91 @@
+{
+  "summary": {
+    "signal": "altitude",
+    "num_steps": 4,
+    "worst_overshoot_pct": 1.3333320617675781,
+    "worst_settling_time_s": 3.8412070274353027,
+    "worst_steady_state_error": 0.004615490253155048,
+    "worst_hold_rms_error": 0.7789094839700476,
+    "peak_roll_deg": 0.04128689604219366,
+    "peak_pitch_deg": 0.0250857657046761
+  },
+  "steps": [
+    {
+      "t_start": 5.185532093048096,
+      "from_target": 5.0,
+      "to_target": 8.0,
+      "step_size": 3.0,
+      "notes": [],
+      "rise_time_s": 2.024157762527466,
+      "overshoot_pct": 1.3333320617675781,
+      "settling_time_s": 3.8412070274353027,
+      "steady_state_error": -0.004615490253155048
+    },
+    {
+      "t_start": 13.193230152130127,
+      "from_target": 8.0,
+      "to_target": 5.0,
+      "step_size": -3.0,
+      "notes": [],
+      "rise_time_s": 1.8002691268920898,
+      "overshoot_pct": 0.6666660308837891,
+      "settling_time_s": 3.056504011154175,
+      "steady_state_error": 0.0013333638509114584
+    },
+    {
+      "t_start": 21.253220081329346,
+      "from_target": 5.0,
+      "to_target": 8.0,
+      "step_size": 3.0,
+      "notes": [],
+      "rise_time_s": 1.812608003616333,
+      "overshoot_pct": 1.3333320617675781,
+      "settling_time_s": 2.8154098987579346,
+      "steady_state_error": -0.0020000457763671873
+    },
+    {
+      "t_start": 29.1091570854187,
+      "from_target": 8.0,
+      "to_target": 5.0,
+      "step_size": -3.0,
+      "notes": [],
+      "rise_time_s": 1.999859094619751,
+      "overshoot_pct": 0.6666660308837891,
+      "settling_time_s": 3.2007460594177246,
+      "steady_state_error": 0.0013333638509114584
+    }
+  ],
+  "segments": [
+    {
+      "t_start": 0.1995100975036621,
+      "target": 5.0,
+      "duration_s": 4.698163032531738,
+      "rms_error_after_settle": 0.013484080835408486
+    },
+    {
+      "t_start": 5.185532093048096,
+      "target": 8.0,
+      "duration_s": 7.731306076049805,
+      "rms_error_after_settle": 0.7789094839700476
+    },
+    {
+      "t_start": 13.193230152130127,
+      "target": 5.0,
+      "duration_s": 7.860288858413696,
+      "rms_error_after_settle": 0.3176633573388661
+    },
+    {
+      "t_start": 21.253220081329346,
+      "target": 8.0,
+      "duration_s": 7.65586519241333,
+      "rms_error_after_settle": 0.24374235764188976
+    },
+    {
+      "t_start": 29.1091570854187,
+      "target": 5.0,
+      "duration_s": 7.8014609813690186,
+      "rms_error_after_settle": 0.3378954581407262
+    }
+  ],
+  "notes": []
+}

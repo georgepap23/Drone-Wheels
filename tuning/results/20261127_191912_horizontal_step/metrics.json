@@ -1,0 +1,24 @@
+{
+  "summary": {
+    "signal": "altitude",
+    "num_steps": 0,
+    "worst_overshoot_pct": null,
+    "worst_settling_time_s": null,
+    "worst_steady_state_error": null,
+    "worst_hold_rms_error": 0.003132150124072725,
+    "peak_roll_deg": 17.070136839742805,
+    "peak_pitch_deg": 16.925541735013635
+  },
+  "steps": [],
+  "segments": [
+    {
+      "t_start": 0.19965791702270508,
+      "target": 5.0,
+      "duration_s": 68.84418797492981,
+      "rms_error_after_settle": 0.003132150124072725
+    }
+  ],
+  "notes": [
+    "no target changes found, so no steps were analysed"
+  ]
+}

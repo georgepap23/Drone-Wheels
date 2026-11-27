@@ -16,13 +16,15 @@ is in `sim/models/Evo-Borne/` (generated — see its `generator/README.md`).
 
 ## What's here
 
-- **ArduPilot** (`ardupilot/`, git submodule) — the flight stack, built for SITL.
-- **ardupilot_gazebo** (`ardupilot_gazebo/`, git submodule) — the official
+- **ArduPilot** (`external/ardupilot/`, git submodule) — the flight stack, built for SITL.
+- **ardupilot_gazebo** (`external/ardupilot_gazebo/`, git submodule) — the official
 plugin that bridges ArduPilot's physics backend to Gazebo over UDP.
 - **sim/** — the Evo-Borne Gazebo model (`sim/models/`) and world
 (`sim/worlds/evo_borne_runway.sdf`).
-- **scripts/** — small pymavlink test scripts (`legs.py` fold/unfold,
-`drive_forward.py`).
+- **lua/** — `evoborne.lua`, the DRIVE/FLY transformation script (see
+`lua/README.md`).
+- **sitl_copter.sh** — starts SITL with the Evo-Borne params and kills it
+when its terminal closes.
 - **tuning/** — automated flight-test / PID tuning pipeline (see
 `tuning/README.md`).
 - **Dockerized SITL** (`docker/`) — an alternative,
@@ -64,8 +66,8 @@ cd ardupilot-gazebo-sitl-setup
 
 ```bash
 python3 -m venv .venv && source .venv/bin/activate
-ardupilot/Tools/environment_install/install-prereqs-mac.sh -y
-cd ardupilot/ArduCopter && sim_vehicle.py -w   # builds, then exits — Ctrl+C once it's done
+external/ardupilot/Tools/environment_install/install-prereqs-mac.sh -y
+cd external/ardupilot/ArduCopter && sim_vehicle.py -w   # builds, then exits — Ctrl+C once it's done
 ```
 
 **2. Install Gazebo Harmonic:**
@@ -88,8 +90,8 @@ make -j4
 Then add to your shell profile (`~/.zshrc`):
 
 ```bash
-export GZ_SIM_SYSTEM_PLUGIN_PATH=/path/to/ardupilot_gazebo/build:$GZ_SIM_SYSTEM_PLUGIN_PATH
-export GZ_SIM_RESOURCE_PATH=/path/to/ardupilot_gazebo/models:/path/to/ardupilot_gazebo/worlds:$GZ_SIM_RESOURCE_PATH
+export GZ_SIM_SYSTEM_PLUGIN_PATH=/path/to/ardupilot-gazebo-sitl-setup/external/ardupilot_gazebo/build:$GZ_SIM_SYSTEM_PLUGIN_PATH
+export GZ_SIM_RESOURCE_PATH=/path/to/ardupilot-gazebo-sitl-setup/external/ardupilot_gazebo/models:/path/to/ardupilot-gazebo-sitl-setup/external/ardupilot_gazebo/worlds:$GZ_SIM_RESOURCE_PATH
 ```
 
 **4. Install QGroundControl:**
@@ -116,19 +118,21 @@ is missing or points to the wrong folder.
 ```bash
 # Terminal 1 — Gazebo server (Evo-Borne)
 cd sim/worlds && gz sim -v 4 -s -r evo_borne_runway.sdf
-#   stock Iris instead: cd ardupilot_gazebo/worlds && gz sim -v 4 -s -r iris_runway.sdf
+#   stock Iris instead: cd external/ardupilot_gazebo/worlds && gz sim -v 4 -s -r iris_runway.sdf
 
-# Terminal 2 — SITL (+ MAVProxy console)
-source .venv/bin/activate
-cd ardupilot/ArduCopter
-sim_vehicle.py -v ArduCopter -f gazebo-iris --model JSON --console
+# Terminal 2 — SITL (+ MAVProxy console), copter + hybrid/Lua params.
+# Kills arducopter when this terminal closes (add -w to wipe saved params)
+./sitl_copter.sh
+#   plain sim_vehicle.py instead (arducopter may survive closing the terminal):
+#   source .venv/bin/activate && cd external/ardupilot/ArduCopter
+#   sim_vehicle.py -v ArduCopter -f gazebo-iris --model JSON --console
 
 # Terminal 3 — Gazebo GUI
 gz sim -g
 ```
 
 With MAVProxy running it owns TCP 5760; QGroundControl auto-connects on
-UDP 14550. Scripts in `scripts/` use the spare port TCP 5763. Arm in
+UDP 14550. Test scripts (`tests/`) use the spare port TCP 5763. Arm in
 **GUIDED** mode and use QGC's **Takeoff** action to fly. Stop the server
 when you stop SITL — a server left running blocks waiting for it.
 

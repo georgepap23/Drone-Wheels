@@ -4,10 +4,11 @@ Reads the .BIN log that SITL wrote and saves flight_plots.html in the run folder
 Open it in a browser: zoom and pan work on every panel, the x-axes move together,
 and hovering shows the values at that time.
 
-Three figures are in the page:
+Four figures are in the page:
   state_tracking    reference vs actual for altitude, position, attitude, plus motor outputs
   estimator_health  EKF test ratios, accuracy, and gyro and accelerometer bias
   rate_tracking     desired vs actual roll, pitch and yaw rate
+  pid_terms         P/I/D/FF of the rate PIDs and vertical accel PID, throttle vs hover
 
 A SITL log holds every flight since SITL started, so only the last armed period
 (from ARM to DISARM) is plotted.
@@ -28,7 +29,7 @@ from pymavlink.DFReader import DFReader_binary
 WANTED = {
     "ATT": ["DesRoll", "Roll", "DesPitch", "Pitch", "DesYaw", "Yaw"],
     "RATE": ["RDes", "R", "PDes", "P", "YDes", "Y"],
-    "CTUN": ["DAlt", "Alt"],
+    "CTUN": ["DAlt", "Alt", "ThO", "ThH"],  # altitude; throttle out and learned hover throttle
     "PSCN": ["DPN"],           # desired north position (controller reference)
     "PSCE": ["DPE"],           # desired east position
     "XKF1": ["PN", "PE", "GX", "GY", "GZ"],  # EKF position estimate and gyro bias
@@ -36,6 +37,10 @@ WANTED = {
     "XKF4": ["SV", "SP", "SH", "SM"],        # innovation test ratios
     "XKF5": ["ePos", "eVel", "eAng"],        # EKF accuracy estimates
     "RCOU": ["C1", "C2", "C3", "C4"],        # motor PWM outputs
+    "PIDR": ["P", "I", "D", "FF"],           # rate PID terms (logged at 400 Hz with LOG_BITMASK bit 0)
+    "PIDP": ["P", "I", "D", "FF"],
+    "PIDY": ["P", "I", "D", "FF"],
+    "PIDA": ["P", "I", "D"],                 # vertical acceleration PID
 }
 PRIMARY_CORE = 0  # the log holds two EKF cores; plot only core 0
 
@@ -173,6 +178,26 @@ def figure_rates(data):
     return fig
 
 
+def figure_pid_terms(data):
+    """P, I, D (and FF) contributions of each rate PID, plus throttle.
+
+    Used for the D -> P -> I tuning: a D or P term that rings after a step means that
+    gain is too high; an I term that keeps growing means a steady error the P term
+    can't remove.
+    """
+    titles = ["Roll rate PID terms", "Pitch rate PID terms", "Yaw rate PID terms",
+              "Vertical accel PID terms", "Throttle: output vs learned hover"]
+    fig = _figure(titles, ["output"] * 4 + ["0..1"], title="Controller terms")
+    for row, msg in enumerate(["PIDR", "PIDP", "PIDY"], start=1):
+        for term in ["P", "I", "D", "FF"]:
+            _trace(fig, row, data, f"{msg}.{term}", term)
+    for term in ["P", "I", "D"]:
+        _trace(fig, 4, data, f"PIDA.{term}", term)
+    _trace(fig, 5, data, "CTUN.ThO", "throttle out", ACT)
+    _trace(fig, 5, data, "CTUN.ThH", "hover throttle", REF)
+    return fig
+
+
 def plot_log(log_path, out_dir=None):
     """Make the interactive plot page from one log. Returns the saved path."""
     log_path = Path(log_path)
@@ -183,7 +208,7 @@ def plot_log(log_path, out_dir=None):
     start, end = last_armed_window(arm_events, raw)
     data = _window(raw, start, end)
 
-    figures = [figure_state(data), figure_estimator(data), figure_rates(data)]
+    figures = [figure_state(data), figure_rates(data), figure_pid_terms(data), figure_estimator(data)]
     parts = []
     for i, fig in enumerate(figures):
         parts.append(fig.to_html(full_html=False, include_plotlyjs=(i == 0)))

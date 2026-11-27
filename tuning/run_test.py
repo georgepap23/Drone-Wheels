@@ -138,11 +138,15 @@ def main(argv=None):
 
     save_samples_csv(samples, run_dir / "samples.csv")
 
-    result = metrics.compute(samples)
+    # scenarios may name the signal they record (default: altitude)
+    result = metrics.compute(samples, signal=getattr(scenario, "SIGNAL", "altitude"))
     metrics.save(result, run_dir / "metrics.json")
     print("Metrics:")
     print(metrics.format_table(result))
 
+    # SITL keeps writing the log for a moment after disarm; copying at once gave
+    # truncated logs (missing the end of the flight).
+    time.sleep(5)
     try:
         latest = logs.find_latest_log(args.log_dir)
         copied = logs.copy_log(latest, run_dir)

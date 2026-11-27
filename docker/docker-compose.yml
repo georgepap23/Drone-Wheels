@@ -5,7 +5,7 @@
 services:
   sitl:
     build:
-      context: ../ardupilot
+      context: ../external/ardupilot
       dockerfile: Dockerfile
       args:
         DO_AP_STM_ENV: "0"        # SITL-only, skip STM32 toolchain
@@ -30,7 +30,7 @@ services:
     image: ardupilot-sitl:local
     container_name: ardupilot-sitl
     volumes:
-      - ../ardupilot:/ardupilot
+      - ../external/ardupilot:/ardupilot
       - ./sitl-entrypoint.sh:/usr/local/bin/sitl-entrypoint.sh:ro
     extra_hosts:
       - "host.docker.internal:host-gateway"

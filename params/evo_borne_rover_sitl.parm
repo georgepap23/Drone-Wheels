@@ -1,7 +1,7 @@
 # Evo-Borne Rover (car mode) SITL overrides, loaded on top of gazebo-rover defaults:
-#   cd ardupilot/Rover
+#   cd external/ardupilot/Rover
 #   sim_vehicle.py -v Rover -f gazebo-rover --model JSON --console \
-#       --add-param-file=../../params/evo_borne_rover_sitl.parm
+#       --add-param-file=../../../params/evo_borne_rover_sitl.parm
 #
 # Model channel map (sim/models/Evo-Borne/model.sdf):
 #   SERVO1-4  rotors           -> unused in car mode

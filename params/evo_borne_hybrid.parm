@@ -1,8 +1,8 @@
 # Evo-Borne hybrid (DRIVE + FLY) overrides for lua/evoborne.lua.
 # Load on top of evo_borne_copter.parm:
 #   sim_vehicle.py -v ArduCopter -f gazebo-iris --model JSON --console \
-#       --add-param-file=../../params/evo_borne_copter.parm \
-#       --add-param-file=../../params/evo_borne_hybrid.parm
+#       --add-param-file=../../../params/evo_borne_copter.parm \
+#       --add-param-file=../../../params/evo_borne_hybrid.parm
 # Reboot once after the first load (SCR_ENABLE needs a reboot).
 #
 # Output map (same as sim/models/Evo-Borne/model.sdf):

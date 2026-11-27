@@ -78,8 +78,24 @@ def arm(link):
         mavutil.mavlink.MAV_CMD_COMPONENT_ARM_DISARM,
         [1],  # 1 = arm
     )
-    if not accepted or not is_armed(link):
+    if not accepted or not _wait_armed_state(link, True):
         raise RuntimeError("Vehicle refused to arm (check pre-arm messages)")
+
+
+def _wait_armed_state(link, armed, timeout=3):
+    """Wait until a heartbeat reports the wanted arm state.
+
+    The first heartbeat read after the command can be an old one, sent before the
+    vehicle armed, so a single read can wrongly say "not armed".
+    """
+    end_time = time.time() + timeout
+    while time.time() < end_time:
+        try:
+            if is_armed(link, timeout=1) == armed:
+                return True
+        except TimeoutError:
+            pass
+    return False
 
 
 def disarm(link):

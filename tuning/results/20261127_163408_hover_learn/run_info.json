@@ -1,0 +1,9 @@
+{
+  "started": "2026-11-27T16:34:08",
+  "connection": "tcp:127.0.0.1:5763",
+  "scenario": "hover_learn",
+  "baseline_file": "/Users/georgepapakonstantinou/Documents/Wheel-Drones/tuning/config/baseline_params.yaml",
+  "tuning_file": "/Users/georgepapakonstantinou/Documents/Wheel-Drones/tuning/config/tuning_params.yaml",
+  "duration_s": 86.1,
+  "log_file": "/Users/georgepapakonstantinou/Documents/Wheel-Drones/tuning/results/20261127_163408_hover_learn/00000012.BIN"
+}

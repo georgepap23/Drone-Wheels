@@ -1,0 +1,254 @@
+# Step 9: wind/gust disturbance test. Same gains as step 7-8 (all loops locked); this run is a check.
+# If position errors in wind are too big: raise PSC_NE_VEL_I (learns the wind faster), then PSC_NE_POS_P.
+
+
+# Parameters under test for one run. Applied after baseline_params.yaml.
+#
+# Values are ArduPilot 4.6.0-beta1 defaults (from ArduCopter/mav.parm), so the first run
+# measures the unmodified controller and estimator. Change a value here to change the test.
+#
+# Groups:
+#   ATC_*  attitude controller (angle loop, then rate loop with PID terms)
+#   PSC_*  position controller (horizontal PSC_NE_*, vertical PSC_D_*)
+#   EK3_*  EKF3 state estimator (sensor noise, sensor sources, fusion gates)
+#
+# Comments come from ArduPilot's own parameter descriptions where they exist. Where the
+# source has none, the comment gives the standard PID or filter meaning and says so.
+
+
+# ---------------------------------------------------------------------------
+# Attitude controller: angle loop (outer loop, converts lean error into rate request)
+# ---------------------------------------------------------------------------
+ATC_ANG_RLL_P: 6.0          # Roll angle P gain: lean error (deg) -> desired roll rate (deg/s)
+ATC_ANG_PIT_P: 6.0          # Pitch angle P gain: lean error -> desired pitch rate
+ATC_ANG_YAW_P: 6.0          # Yaw angle P gain: heading error -> desired yaw rate
+ATC_ANG_LIM_TC: 1.0         # Time constant (s) that limits lean angle to keep altitude while leaning
+ATC_ANGLE_MAX: 30           # Maximum lean angle in every flight mode (degrees)
+ATC_ANGLE_BOOST: 1          # 1 = raise throttle as the vehicle leans, to avoid losing altitude
+ATC_INPUT_TC: 0.1           # Pilot input smoothing (s). Low = sharper response, high = softer
+
+# ---------------------------------------------------------------------------
+# Attitude controller: rate loop, roll (inner loop, converts rate error into motor output)
+# PID terms: P = proportional, I = integral, D = derivative, FF = feed-forward.
+# FLTD / FLTE / FLTT = filter cutoffs (Hz) on the D term, error, and target.
+# NEF / NTF = notch filter indices. PDMX / SMAX = limits on the P+D sum.
+# Note: the source has no description for the I, D_FF, FLT*, NEF/NTF and PDMX lines,
+#       so their comments use the standard PID meaning.
+# ---------------------------------------------------------------------------
+ATC_RAT_RLL_P: 0.135        # Roll rate P gain: rate error -> motor correction
+ATC_RAT_RLL_I: 0.135        # Roll rate I gain: removes steady rate error over time
+ATC_RAT_RLL_D: 0.0054       # Roll rate D gain: damps fast changes in rate error
+ATC_RAT_RLL_IMAX: 0.5       # Maximum output the I term can contribute (limits windup)
+ATC_RAT_RLL_FF: 0           # Feed-forward: adds output directly from the desired rate
+ATC_RAT_RLL_D_FF: 0         # Feed-forward on the D term (standard PID meaning)
+ATC_RAT_RLL_FLTD: 20        # D-term filter cutoff (Hz). Lower = smoother, more lag
+ATC_RAT_RLL_FLTE: 0         # Error filter cutoff (Hz). 0 = no filter
+ATC_RAT_RLL_FLTT: 20        # Target filter cutoff (Hz) on the desired rate
+ATC_RAT_RLL_NEF: 0          # Notch filter index for the error signal. 0 = off
+ATC_RAT_RLL_NTF: 0          # Notch filter index for the target signal. 0 = off
+ATC_RAT_RLL_PDMX: 0         # Max output of the P+D sum (0 = no limit)
+ATC_RAT_RLL_SMAX: 0         # Max slew rate of the P+D output (limits how fast it can change)
+
+# Attitude controller: rate loop, pitch (same meanings as roll)
+ATC_RAT_PIT_P: 0.135        # Pitch rate P gain
+ATC_RAT_PIT_I: 0.135        # Pitch rate I gain
+ATC_RAT_PIT_D: 0.0054       # Pitch rate D gain
+ATC_RAT_PIT_IMAX: 0.5       # Maximum output the pitch I term can contribute
+ATC_RAT_PIT_FF: 0           # Pitch rate feed-forward
+ATC_RAT_PIT_D_FF: 0         # Pitch D-term feed-forward
+ATC_RAT_PIT_FLTD: 20        # Pitch D-term filter cutoff (Hz)
+ATC_RAT_PIT_FLTE: 0         # Pitch error filter cutoff (Hz)
+ATC_RAT_PIT_FLTT: 20        # Pitch target filter cutoff (Hz)
+ATC_RAT_PIT_NEF: 0          # Pitch error notch filter index
+ATC_RAT_PIT_NTF: 0          # Pitch target notch filter index
+ATC_RAT_PIT_PDMX: 0         # Pitch P+D sum limit
+ATC_RAT_PIT_SMAX: 0         # Pitch slew-rate limit on the P+D output
+
+# Attitude controller: rate loop, yaw
+ATC_RAT_YAW_P: 1.0          # Yaw rate P gain
+ATC_RAT_YAW_I: 0.1          # Yaw rate I gain
+ATC_RAT_YAW_D: 0            # Yaw rate D gain (usually 0 for yaw)
+ATC_RAT_YAW_IMAX: 0.5       # Maximum output the yaw I term can contribute
+ATC_RAT_YAW_FF: 0           # Yaw rate feed-forward
+ATC_RAT_YAW_D_FF: 0         # Yaw D-term feed-forward
+ATC_RAT_YAW_FLTD: 20        # Yaw D-term filter cutoff (Hz)
+ATC_RAT_YAW_FLTE: 2.5       # Yaw error filter cutoff (Hz)
+ATC_RAT_YAW_FLTT: 20        # Yaw target filter cutoff (Hz)
+ATC_RAT_YAW_NEF: 0          # Yaw error notch filter index
+ATC_RAT_YAW_NTF: 0          # Yaw target notch filter index
+ATC_RAT_YAW_PDMX: 0         # Yaw P+D sum limit
+ATC_RAT_YAW_SMAX: 0         # Yaw slew-rate limit on the P+D output
+
+# Attitude controller: rate feed-forward and rate limits
+ATC_RATE_FF_ENAB: 1         # 1 = use body-frame rate feed-forward
+ATC_RATE_R_MAX: 0           # Max roll rate (deg/s). 0 = use the default
+ATC_RATE_P_MAX: 0           # Max pitch rate (deg/s). 0 = use the default
+ATC_RATE_Y_MAX: 0           # Max yaw rate (deg/s). 0 = use the default
+ATC_RATE_WPY_MAX: 60        # Max rate the yaw target can change in auto-type modes (deg/s)
+ATC_ACC_R_MAX: 1100         # Max roll acceleration (deg/s^2)
+ATC_ACC_P_MAX: 1100         # Max pitch acceleration (deg/s^2)
+ATC_ACC_Y_MAX: 270          # Max yaw acceleration (deg/s^2)
+
+# Attitude controller: throttle vs attitude priority (how much attitude control is
+# protected when throttle is also needed)
+ATC_THR_MIX_MIN: 0.1        # Priority of attitude control while landing (higher = attitude first)
+ATC_THR_MIX_MAN: 0.1        # Priority of attitude control in manual flight
+ATC_THR_MIX_MAX: 0.5        # Priority of attitude control in active (auto) flight
+ATC_THR_G_BOOST: 0          # Throttle-gain boost ratio. 0 = off, 1 = full boost
+ATC_LAND_R_MULT: 1.0        # Roll gain multiplier while landed (1.0 = no reduction)
+ATC_LAND_P_MULT: 1.0        # Pitch gain multiplier while landed (1.0 = no reduction)
+ATC_LAND_Y_MULT: 1.0        # Yaw gain multiplier while landed (1.0 = no reduction)
+
+# ---------------------------------------------------------------------------
+# Position controller: horizontal (north/east), PSC_NE_*
+# ---------------------------------------------------------------------------
+PSC_NE_POS_P: 1.5           # Horizontal position P gain: position error -> desired velocity
+PSC_NE_VEL_P: 3.0           # Horizontal velocity P gain: velocity error -> desired acceleration
+PSC_NE_VEL_I: 1.0           # Horizontal velocity I gain (removes steady velocity error)
+PSC_NE_VEL_D: 0.25          # Horizontal velocity D gain (damps velocity changes)
+PSC_NE_VEL_IMAX: 10         # Maximum output the horizontal velocity I term can contribute
+PSC_NE_VEL_FF: 0            # Horizontal velocity feed-forward
+PSC_NE_VEL_FLTD: 5          # Horizontal velocity D-term filter cutoff (Hz)
+PSC_NE_VEL_FLTE: 5          # Horizontal velocity error filter cutoff (Hz)
+PSC_NE_JERK: 2.5            # Max jerk (rate of change of acceleration) horizontally (m/s^3)
+WP_ACC: 1.25                # Max horizontal acceleration/braking in GUIDED/AUTO (m/s^2). Stock 2.5; halved for a gentler stop
+
+# ---------------------------------------------------------------------------
+# Position controller: vertical (altitude), PSC_D_*
+# D = "down" in NED coordinates, so these are the altitude loops.
+# ---------------------------------------------------------------------------
+PSC_D_POS_P: 1.0            # Altitude P gain: height error -> desired climb rate
+PSC_D_VEL_P: 5.0            # Climb-rate P gain: climb-rate error -> throttle correction
+PSC_D_VEL_I: 0              # Climb-rate I gain (0 here; the throttle I term is separate)
+PSC_D_VEL_D: 0              # Climb-rate D gain
+PSC_D_VEL_IMAX: 10          # Maximum output the climb-rate I term can contribute
+PSC_D_VEL_FF: 0             # Climb-rate feed-forward
+PSC_D_VEL_FLTD: 5           # Climb-rate D-term filter cutoff (Hz)
+PSC_D_VEL_FLTE: 5           # Climb-rate error filter cutoff (Hz)
+PSC_D_ACC_P: 0.05           # Vertical acceleration P gain: acceleration error -> throttle
+PSC_D_ACC_I: 0.1            # Vertical acceleration I gain
+PSC_D_ACC_D: 0              # Vertical acceleration D gain
+PSC_D_ACC_IMAX: 0.8         # Maximum output the vertical acceleration I term can contribute
+PSC_D_ACC_FF: 0             # Vertical acceleration feed-forward
+PSC_D_ACC_D_FF: 0           # Vertical acceleration D-term feed-forward
+PSC_D_ACC_FLTD: 0           # Vertical acceleration D-term filter cutoff (Hz). 0 = no filter
+PSC_D_ACC_FLTE: 20          # Vertical acceleration error filter cutoff (Hz)
+PSC_D_ACC_FLTT: 0           # Vertical acceleration target filter cutoff (Hz). 0 = no filter
+PSC_D_ACC_NEF: 0            # Vertical acceleration error notch index
+PSC_D_ACC_NTF: 0            # Vertical acceleration target notch index
+PSC_D_ACC_PDMX: 0           # Vertical acceleration P+D sum limit
+PSC_D_ACC_SMAX: 0           # Vertical acceleration slew-rate limit
+PSC_D_JERK: 5               # Max vertical jerk (m/s^3)
+PSC_ANGLE_MAX: 0            # Max lean angle the position controller may request (deg). 0 = use ATC_ANGLE_MAX
+
+# ---------------------------------------------------------------------------
+# EKF3 state estimator (sensor fusion). These decide how much each sensor is trusted.
+# Noise values (_NSE, _M_NSE) are RMS noise in the sensor's units. A larger value means
+# less weight on that sensor.
+# Gates (_I_GATE) are the innovation check in percent of standard deviation. Lower
+# values reject more measurements as outliers.
+# ---------------------------------------------------------------------------
+
+# Core setup
+EK3_ENABLE: 1               # 1 = use EKF3. (ArduPilot's own description for this one is wrong.)
+EK3_IMU_MASK: 3             # Bitmap of IMUs to run an EKF on (3 = IMU 1 and IMU 2)
+EK3_PRIMARY: 0              # Which EKF core is primary at startup (index into IMU mask)
+EK3_AFFINITY: 0             # Options controlling which sensors run on which EKF core
+EK3_ERR_THRESH: 0.2         # How much better a backup core must be before it takes over
+EK3_LOG_LEVEL: 0            # EKF log verbosity. 0 = full logging
+EK3_CHECK_SCALE: 100        # Scales the GPS accuracy check thresholds. 100 = default
+EK3_GPS_CHECK: 31           # Bitmap of GPS pre-flight checks (0 = bypass all)
+EK3_GPS_VACC_MAX: 0         # Max vertical accuracy (m) for GPS to be used as height. 0 = no limit
+EK3_GLITCH_RAD: 25          # Max position jump (m) the filter accepts before treating GPS as a glitch
+EK3_OPTIONS: 0              # Extra EKF options bitmap (none set)
+EK3_MAG_CAL: 3              # When to use the 3-axis magnetometer model. 3 = learn when conditions allow
+EK3_MAG_MASK: 0             # Cores that use simple heading fusion from the compass instead of full mag states
+EK3_MAG_EF_LIM: 50          # Max allowed difference (gauss-units) between learned and world magnetic field
+EK3_GSF_RUN_MASK: 3         # Cores that run the backup yaw estimator (EKF-GSF)
+EK3_GSF_USE_MASK: 3         # Cores that use the EKF-GSF yaw output
+EK3_GSF_RST_MAX: 2          # Max number of yaw resets to the EKF-GSF estimate
+
+# Sensor sources (which sensor provides each quantity). Values from ArduPilot's source
+# selection list: 3 = GPS, 1 = barometer or compass depending on the field, 0 = none.
+# Check the names of these values in QGC when you first load them.
+EK3_SRC_OPTIONS: 0          # Options for choosing sources (none set)
+EK3_SRC1_POSXY: 3           # Horizontal position source 1: GPS
+EK3_SRC1_POSZ: 1            # Altitude source 1: barometer
+EK3_SRC1_VELXY: 3           # Horizontal velocity source 1: GPS
+EK3_SRC1_VELZ: 3            # Vertical velocity source 1: GPS
+EK3_SRC1_YAW: 1             # Yaw source 1: compass
+EK3_SRC2_POSXY: 0           # Horizontal position source 2: none
+EK3_SRC2_POSZ: 1            # Altitude source 2: barometer
+EK3_SRC2_VELXY: 0           # Horizontal velocity source 2: none
+EK3_SRC2_VELZ: 0            # Vertical velocity source 2: none
+EK3_SRC2_YAW: 0             # Yaw source 2: none
+EK3_SRC3_POSXY: 0           # Horizontal position source 3: none
+EK3_SRC3_POSZ: 1            # Altitude source 3: barometer
+EK3_SRC3_VELXY: 0           # Horizontal velocity source 3: none
+EK3_SRC3_VELZ: 0            # Vertical velocity source 3: none
+EK3_SRC3_YAW: 0             # Yaw source 3: none
+
+# Height and altitude measurements
+EK3_ALT_M_NSE: 2.0          # Altitude (barometer) measurement noise (m). Higher = trust baro less
+EK3_HGT_DELAY: 60           # Delay (ms) of height measurements behind the IMU data
+EK3_HGT_I_GATE: 500         # Height innovation gate (% of std dev)
+EK3_HRT_FILT: 2.0           # Crossover frequency (Hz) of the height-rate filter
+EK3_TAU_OUTPUT: 25          # Output filter time constant (centiseconds). 25 = 0.25 s
+EK3_GND_EFF_DZ: 4.0         # Dead zone (m) for ignoring negative barometer spikes near the ground
+EK3_RNG_M_NSE: 0.5          # Rangefinder measurement noise (m)
+EK3_RNG_I_GATE: 500         # Rangefinder innovation gate (% of std dev)
+EK3_RNG_USE_HGT: -1         # Use rangefinder as height source below this % of its range. -1 = off
+EK3_RNG_USE_SPD: 2.0        # Don't use rangefinder for height above this horizontal speed (m/s)
+EK3_TERR_GRAD: 0.1          # Max terrain slope assumed when fusing rangefinder or flow data
+
+# Horizontal and vertical GPS measurements
+EK3_POSNE_M_NSE: 0.5        # GPS horizontal position noise (m). Higher = trust GPS position less
+EK3_VELNE_M_NSE: 0.3        # GPS horizontal velocity noise (m/s)
+EK3_VELD_M_NSE: 0.5         # GPS vertical velocity noise (m/s)
+EK3_POS_I_GATE: 500         # GPS position innovation gate (% of std dev)
+EK3_VEL_I_GATE: 500         # GPS velocity innovation gate (% of std dev)
+
+# Magnetometer (compass) and yaw
+EK3_MAG_M_NSE: 0.05         # Compass measurement noise. Higher = trust compass less
+EK3_MAG_I_GATE: 300         # Compass innovation gate (% of std dev)
+EK3_YAW_M_NSE: 0.5          # Yaw measurement noise (rad) when fusing yaw directly
+EK3_YAW_I_GATE: 300         # Yaw innovation gate (% of std dev)
+EK3_MAGB_P_NSE: 0.0001      # Process noise on the body-frame magnetic field estimate
+EK3_MAGE_P_NSE: 0.001       # Process noise on the Earth magnetic field estimate
+
+# IMU: accelerometer and gyro process noise
+EK3_ACC_P_NSE: 0.35         # Accelerometer process noise. Higher = accelerometer trusted less
+EK3_GYRO_P_NSE: 0.015       # Gyro process noise. Higher = gyro trusted less
+EK3_GBIAS_P_NSE: 0.001      # Gyro bias process noise. Higher = gyro bias estimated faster
+EK3_ABIAS_P_NSE: 0.02       # Accelerometer bias process noise (vertical). Higher = bias adapts faster
+EK3_ACC_BIAS_LIM: 1.0       # Max accelerometer bias the filter may estimate (m/s^2)
+
+# Drag and wind (used for estimating wind; not needed for a basic hover test)
+EK3_WIND_P_NSE: 0.2         # Wind state process noise. Higher = wind estimate changes faster
+EK3_WIND_PSCALE: 1.0        # How much wind noise increases when climbing or descending
+EK3_DRAG_M_NSE: 0.5         # Noise on the drag-based acceleration measurement
+EK3_DRAG_BCOEF_X: 0         # Mass-to-drag ratio along the body X axis (0 = not used)
+EK3_DRAG_BCOEF_Y: 0         # Mass-to-drag ratio along the body Y axis (0 = not used)
+EK3_DRAG_MCOEF: 0           # Rotor drag coefficient for multicopter wind estimation (0 = not used)
+EK3_BETA_MASK: 0            # Sideslip fusion bitmap for fixed-wing use (0 = off)
+
+# Airspeed and optical flow (not used by the Iris model in SITL, so no effect here)
+EK3_EAS_M_NSE: 1.4          # Airspeed measurement noise (fixed-wing only)
+EK3_EAS_I_GATE: 400         # Airspeed innovation gate (% of std dev)
+EK3_FLOW_USE: 1             # 1 = use optical flow for navigation
+EK3_FLOW_M_NSE: 0.25        # Optical flow measurement noise
+EK3_FLOW_I_GATE: 300        # Optical flow innovation gate (% of std dev)
+EK3_FLOW_DELAY: 10          # Delay (ms) of optical flow data behind the IMU
+EK3_FLOW_MAX: 2.5           # Max optical flow rate accepted (rad/s)
+EK3_FLOW_GAIN_H: 4.0        # Height below which navigation gain stays at full scale on flow
+EK3_VIS_VERR_MIN: 0.1       # Visual odometry error at maximum quality (m/s)
+EK3_VIS_VERR_MAX: 0.9       # Visual odometry error at minimum quality (m/s)
+EK3_WENC_VERR: 0.1          # Wheel-encoder velocity error (m/s)
+
+# Beacons and no-aid mode
+EK3_BCN_M_NSE: 1.0          # Range-beacon measurement noise (m)
+EK3_BCN_I_GTE: 500          # Range-beacon innovation gate (% of std dev). Name is ArduPilot's spelling
+EK3_BCN_DELAY: 50           # Delay (ms) of beacon data behind the IMU
+EK3_NOAID_M_NSE: 10.0       # Position variation allowed when there are no external measurements (m)
+EK3_OGN_HGT_MASK: 0         # Options for the zero-height reference when not using GPS height
+EK3_OGNM_TEST_SF: 2.0       # Sensitivity of the on-ground-not-moving test (yaw learning)
