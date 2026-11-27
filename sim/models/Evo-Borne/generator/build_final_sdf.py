@@ -145,7 +145,11 @@ def corner_block(name, c):
         <!-- Ø165 mm x 30.5 mm cylinder along the wheel axle (link Y) -->
         <pose>0 0.0102 0 1.5708 0 0</pose>
         <geometry><cylinder><radius>0.0825</radius><length>0.0305</length></cylinder></geometry>
-        <surface><friction><ode><mu>0.3</mu><mu2>0.3</mu2></ode></friction></surface>
+        <!-- tyre-like friction: low sideways (mu, along fdir1 = axle) and high
+             rolling direction (mu2). With equal friction both ways this 4-wheel
+             skid-steer (wheelbase ~22 cm > track ~15 cm) cannot turn at all:
+             sideways scrub torque > the turning torque the wheels can give. -->
+        <surface><friction><ode><mu>0.3</mu><mu2>1.0</mu2><fdir1>0 0 1</fdir1></ode></friction></surface>
       </collision>
     </link>
 
