@@ -170,6 +170,7 @@ m.mav.mission_item_int_send(m.target_system, m.target_component, 0, 3, 16, 2, 1,
 pump(5)
 check("GUIDED: wheels driving forward", all(w > 1550 for w in wheels()), wheels())
 check("GUIDED: reached target", wait_text("GUIDED: reached", 150), f"{dist_to(LEG, 0):.1f} m")
+wait_until(lambda: wheels() == [1500] * 4, 3)   # telemetry lags the stop
 check("GUIDED: stopped within radius", dist_to(LEG, 0) < 2.0 and wheels() == [1500] * 4,
       f"{dist_to(LEG, 0):.1f} m, {wheels()}")
 
