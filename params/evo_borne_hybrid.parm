@@ -1,0 +1,55 @@
+# Evo-Borne hybrid (DRIVE + FLY) overrides for lua/evoborne.lua.
+# Load on top of evo_borne_copter.parm:
+#   sim_vehicle.py -v ArduCopter -f gazebo-iris --model JSON --console \
+#       --add-param-file=../../params/evo_borne_copter.parm \
+#       --add-param-file=../../params/evo_borne_hybrid.parm
+# Reboot once after the first load (SCR_ENABLE needs a reboot).
+#
+# Output map (same as sim/models/Evo-Borne/model.sdf):
+#   SERVO1-4   rotors           -> Motor1-4 (unchanged)
+#   SERVO5-8   hips FL FR RL RR -> Script1-4, driven by the Lua
+#   SERVO9-12  wheels FL FR RL RR -> Script5 (left) / Script6 (right)
+
+# scripting on
+SCR_ENABLE 1
+
+# RC7 = DRIVE/FLY switch read by the Lua (low/mid = DRIVE, high = FLY)
+RC7_OPTION 300
+
+# hips: Script1-4. TRIM = 1000 so the legs stay folded (DRIVE) before the
+# script has loaded.
+SERVO5_FUNCTION 94
+SERVO6_FUNCTION 95
+SERVO7_FUNCTION 96
+SERVO8_FUNCTION 97
+SERVO5_MIN  1000
+SERVO5_MAX  2000
+SERVO5_TRIM 1000
+SERVO6_MIN  1000
+SERVO6_MAX  2000
+SERVO6_TRIM 1000
+SERVO7_MIN  1000
+SERVO7_MAX  2000
+SERVO7_TRIM 1000
+SERVO8_MIN  1000
+SERVO8_MAX  2000
+SERVO8_TRIM 1000
+
+# wheels: one function per side (Script5 = left FL+RL, Script6 = right FR+RR).
+# TRIM = 1500 = stopped.
+SERVO9_FUNCTION  98
+SERVO11_FUNCTION 98
+SERVO10_FUNCTION 99
+SERVO12_FUNCTION 99
+SERVO9_MIN   1000
+SERVO9_MAX   2000
+SERVO9_TRIM  1500
+SERVO10_MIN  1000
+SERVO10_MAX  2000
+SERVO10_TRIM 1500
+SERVO11_MIN  1000
+SERVO11_MAX  2000
+SERVO11_TRIM 1500
+SERVO12_MIN  1000
+SERVO12_MAX  2000
+SERVO12_TRIM 1500
