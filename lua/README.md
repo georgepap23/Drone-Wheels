@@ -73,7 +73,10 @@ Example in QGroundControl: `WP1, WP2` (ground), `Takeoff 5 m`, `WP3`
 
 With `EVO_AUTO_FLY = 1` steps 2–4 happen by themselves: at Takeoff the script
 unfolds the legs, waits until ready, counts 3 s and arms; after the landing it
-folds the legs and drives on. Moving the switch at any time cancels this and
+folds the legs and drives on. If ArduPilot's own pre-arm checks refuse at
+first (in Gazebo `Accels inconsistent` for ~10–25 s while the body settles on
+the unfolded legs), it retries every 2 s for up to 60 s
+(`EVO: auto ARM: waiting for PreArm checks`). Moving the switch at any time cancels this and
 gives control back to the pilot. Keep it at 0 until the manual sequence works
 reliably on the real vehicle.
 

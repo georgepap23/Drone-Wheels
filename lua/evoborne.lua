@@ -67,6 +67,8 @@ local DEADBAND     = 0.06    -- stick dead band (fraction of full throw)
 local TRAVEL_MS     = 2000   -- full DRIVE <-> FLY travel time (slow = lower servo current)
 local SETTLE_MS     = 2000   -- wait in FLY before ARM is allowed
 local AUTO_ARM_MS   = 3000   -- countdown before the script arms by itself (EVO_AUTO_FLY)
+local AUTO_ARM_RETRY_MS = 2000   -- retry period if ArduPilot refuses to arm
+local AUTO_ARM_TRY_MS   = 60000  -- give up after this long
 local STATUS_MS     = 10000  -- progress message period while navigating
 local LOOP_MS       = 20     -- 50 Hz
 
@@ -121,7 +123,8 @@ local nav = {
   takeoff_idx = nil,     -- AUTO: ground leg finished at this TAKEOFF item
   guided_tgt = nil,      -- GUIDED: last target, to detect a new one
   next_status = 0,
-  arm_at = nil,          -- EVO_AUTO_FLY: time at which to arm
+  arm_at = nil,          -- EVO_AUTO_FLY: time of the next arming attempt
+  arm_until = nil,       -- EVO_AUTO_FLY: give up arming after this time
   flight_idx = nil,      -- AUTO: mission item while flying (Copter resets the
                          --       mission to item 1 when it disarms)
   resume_idx = nil,      -- AUTO: continue the ground leg here after a landing
@@ -548,22 +551,39 @@ function update()
     settle_left = settle_left - LOOP_MS
     if settle_left <= 0 then
       say(INFO, "ready to ARM")
-      if auto_target == 1.0 and not armed then nav.arm_at = now_ms() + AUTO_ARM_MS end
+      if auto_target == 1.0 and not armed then
+        nav.arm_at = now_ms() + AUTO_ARM_MS
+        nav.arm_until = nav.arm_at + AUTO_ARM_TRY_MS
+        say(INFO, string.format("auto ARM in %d s", AUTO_ARM_MS // 1000))
+      end
     end
   end
 
-  -- EVO_AUTO_FLY: arm by itself (only in AUTO, legs in FLY, RC present)
+  -- EVO_AUTO_FLY: arm by itself (only in AUTO, legs in FLY, RC present).
+  -- ArduPilot's own pre-arm checks may refuse for a few seconds after the legs
+  -- move (e.g. "Accels inconsistent" while the body still wobbles), so retry
+  -- like a pilot would, for up to AUTO_ARM_TRY_MS.
   if nav.arm_at and not armed then
     if vehicle:get_mode() ~= MODE_AUTO or auto_target ~= 1.0 then
       nav.arm_at = nil
     elseif now_ms() >= nav.arm_at then
-      nav.arm_at = nil
       if not rc:has_valid_input() then
+        nav.arm_at = nil
         say(WARN, "no RC: auto take-off cancelled")
-      elseif not arming:arm() then
-        say(WARN, "auto ARM refused, see PreArm")
+      elseif arming:arm() then
+        nav.arm_at = nil
+      elseif now_ms() >= nav.arm_until then
+        nav.arm_at = nil
+        say(WARN, string.format("auto ARM refused for %d s, see PreArm", AUTO_ARM_TRY_MS // 1000))
+      else
+        if nav.arm_until - now_ms() > AUTO_ARM_TRY_MS - AUTO_ARM_RETRY_MS then
+          say(INFO, "auto ARM: waiting for PreArm checks")
+        end
+        nav.arm_at = now_ms() + AUTO_ARM_RETRY_MS
       end
     end
+  elseif armed then
+    nav.arm_at = nil
   end
 
   write_hips()
